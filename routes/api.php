@@ -3,6 +3,20 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use Laravel\Passport\Http\Controllers\AccessTokenController;
+use Laravel\Passport\Http\Controllers\AuthorizedAccessTokenController;
+use Laravel\Passport\Http\Controllers\TransientTokenController;
+
+
+Route::post('/oauth/token', [AccessTokenController::class, 'issueToken'])
+    ->middleware(['throttle']);
+
+Route::middleware('auth:api')->group(function () {
+    Route::get('/user/tokens', [AuthorizedAccessTokenController::class, 'forUser']);
+    Route::delete('/user/tokens/{token_id}', [AuthorizedAccessTokenController::class, 'destroy']);
+});
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,7 +46,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/rental-details', [App\Http\Controllers\API\RentalController::class, 'rentalDetails']);
     Route::get('/user-details', [App\Http\Controllers\API\RentalController::class, 'userDetails']);
     Route::post('/user-updates', [App\Http\Controllers\API\RentalController::class, 'userUpdates']);
-    
+
     // API route for logout user
     Route::post('/logout', [App\Http\Controllers\API\AuthController::class, 'logout']);
 });

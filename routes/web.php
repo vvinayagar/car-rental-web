@@ -24,6 +24,7 @@ Route::resource('category', App\Http\Controllers\CategoryController::class);
 Route::resource('plan', App\Http\Controllers\PlanController::class);
 Route::resource('rent', App\Http\Controllers\RentController::class);
 Route::resource('user', App\Http\Controllers\AdminUserManageController::class);
+Route::resource('shop', App\Http\Controllers\ShopController::class);
 
 //Route::get('rental', [App\Http\Controllers\RentalItemController::class , "index"])->name('rental');
 
