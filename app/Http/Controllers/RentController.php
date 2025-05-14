@@ -28,7 +28,7 @@ class RentController extends Controller
      */
     public function create()
     {
-        $users = Users::all();
+        $users = User::all();
         $plans = Plan::all();
         $rentals = RentalModel::all();
         return view('rent.create', compact('users', 'plans', 'rentals'));

@@ -16,6 +16,7 @@
                     <table class="table table-striped table-responsive" id="">
                         <tr>
                             <th>Name</th>
+                            <th>Images</th>
                             <th>Actions</th>
                         </tr>
 
@@ -23,11 +24,19 @@
                             <tr>
                                 <td>{{ $brand->name }}</td>
                                 <td>
+                                    @foreach (json_decode($brand->images) as $imgPath )
+                                    <img class="img img-thumbnail" src="{{ asset('images/' . $imgPath) }}" />
+                                    @endforeach
+
+                                </td>
+                                <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('brand.show', ['brand' => $brand]) }}'" >View</button>
                                         <button type="button" class="btn btn-warning" onclick="window.location='{{ route('brand.edit', ['brand' => $brand]) }}'" >Edit</button>
                                         <form method="post" action="{{ route('brand.destroy', ['brand' => $brand]) }}">
-                                            <button type="button" class="btn btn-danger">Delete</button>
+                                           @csrf
+                                           @method('delete')
+                                            <button type="submit" class="btn btn-danger">Delete</button>
                                         </form>
                                     </div>
                                 </td>

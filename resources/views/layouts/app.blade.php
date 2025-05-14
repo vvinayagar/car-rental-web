@@ -25,7 +25,7 @@
     <header>
         <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Easy Car Enterprise (ECE)</a>
+                <a class="navbar-brand" href="/">Easy Car Enterprise (ECE)</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -47,6 +47,10 @@
                                 </li>
                             @endif
                         @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
+                        </li>
+                        @role('admin')
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('shop.index') }}">{{ __('Shop') }}</a>
                         </li>
@@ -73,6 +77,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('user.index') }}">{{ __('User') }}</a>
                             </li>
+                            @endrole
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

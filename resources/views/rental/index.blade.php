@@ -10,7 +10,7 @@
         </div>
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Rental Laptops') }}</div>
+                <div class="card-header">{{ __('Rental Cars') }}</div>
 
                 <div class="card-body">
                     <table class="table table-striped table-responsive" id="">
@@ -34,7 +34,7 @@
                                         <button type="button" class="btn btn-warning" onclick="window.location='{{ route('rental.edit', ['rental' => $rental->id]) }}'" >Edit</button>
                                         <form method="post" action="{{ route('rental.destroy', ['rental' => $rental->id]) }}">
                                         @csrf
-                                        @method('delete')    
+                                        @method('delete')
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                         </form>
                                     </div>

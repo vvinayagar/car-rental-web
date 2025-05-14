@@ -78,8 +78,9 @@
 
                             <div class="col-md-6">
                                 <select class="form-control" name="privilege" id="privilege" >
-                                    <option value="admin" @if($privilege->name == 'admin') selected  @endif>Admin</option>
-                                    <option value="user" @if($privilege->name == 'user') selected  @endif>User</option>
+                                    <option value="admin" @if($user->role == 'admin') selected  @endif>Admin</option>
+                                    <option value="branch" @if($user->role == 'branch') selected  @endif>Branch</option>
+                                    <option value="user" @if($user->role == 'user') selected  @endif>User</option>
                                 </select>
 
                             </div>

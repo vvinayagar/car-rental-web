@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Plan') }}</div>
 
                 <div class="card-body">
-                    <form method="post" action="{{ route('plan.edit', 'plan' => $plan) }}" class="form" type="multipart/form-data">
+                    <form method="post" action="{{ route('plan.edit', ['plan' => $plan]) }}" class="form" type="multipart/form-data">
                         @csrf
                         @method('put')
                         <div class="row">

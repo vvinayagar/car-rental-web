@@ -29,16 +29,9 @@ class AdminUserManageController extends Controller
             $customUser["id"] = $user->id;
             $customUser["name"] = $user->name;
             $customUser["email"] = $user->email;
-            if (isset($privilege)) {
-                $customUser["privilege"] = $privilege->name;
-            } else {
-                $privilege = new Privilege();
-                $privilege->user_id =  $user->id;
-                $privilege->name = 'user';
-                $privilege->save();
-
-                $customUser["privilege"] = $privilege->name;
-            }
+          
+                $customUser["privilege"] = $user->role;
+            
             array_push($userlist, $customUser);
         }
 
@@ -95,10 +88,9 @@ class AdminUserManageController extends Controller
 
         $profile->save();
 
-        $privilege = new Privilege();
-        $privilege->user_id = $user->id;
-        $privilege->name = $request->privilege;
-        $privilege->save();
+       
+
+        $user->assignRole($request->privilege);
 
         return redirect()->route('user.index');
     }
@@ -112,7 +104,6 @@ class AdminUserManageController extends Controller
     public function show($id)
     {
         $user = User::where("id", $id)->first();
-        $privilege = Privilege::where("user_id", $id)->first();
         $profile = Profile::where("user_id", $id)->first();
 
         if(!isset($profile))
@@ -126,7 +117,7 @@ class AdminUserManageController extends Controller
 
         return view(
             "adminusermanage.view",
-            ["user" => $user, "profile" => $profile, "privilege" => $privilege]
+            ["user" => $user, "profile" => $profile]
         );
     }
 
@@ -140,7 +131,6 @@ class AdminUserManageController extends Controller
     {
         $user = User::where("id", $id)->first();
         $profile = Profile::where("user_id", $id)->first();
-        $privilege = Privilege::where("user_id", $id)->first();
 
          if(!isset($profile))
         {
@@ -153,7 +143,7 @@ class AdminUserManageController extends Controller
 
         return view(
             "adminusermanage.edit",
-            ["user" => $user, "profile" => $profile, "privilege" => $privilege]
+            ["user" => $user, "profile" => $profile]
         );
     }
 
@@ -191,15 +181,6 @@ class AdminUserManageController extends Controller
         
         $profile->save();
 
-        $privilege = Privilege::where("user_id", $id)->first();
-        if (!isset($privilege)) {
-            $privilege = new Privilege();
-            $privilege->user_id = $id;
-        }
-        $privilege->name = $request->privilege;
-      
-        $privilege->save();
-
         return redirect()->route('user.index');
     }
 
@@ -212,11 +193,9 @@ class AdminUserManageController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
-        $privilege = Privilege::where("user_id", $id)->first();
         $profile = Profile::where("user_id", $id)->first();
         try {
             $user->delete();
-            $privilege->delete();
             $profile->delete();
         } catch (\Throwable $th) {
             //throw $th;

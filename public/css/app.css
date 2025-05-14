@@ -23508,10 +23508,24 @@ footer a:hover, footer a:active, footer a:focus {
 #myCarousel .carousel-item {
   height: 50vh;
 }
+#myCarousel .carousel-item .bd-placeholder-img {
+  height: 50vh;
+  width: 100vw;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
 #myCarousel .carousel-item > img {
   position: absolute;
   top: 0;
   left: 0;
   min-width: 100%;
   height: 32rem;
+}
+
+.img-thumbnail {
+  background-color: gray;
+}
+
+.rentals .card .card-footer {
+  display: flex;
 }

@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Rental Laptops') }}</div>
+                <div class="card-header">{{ __('Rental Cars') }}</div>
 
                 <div class="card-body">
                     <form method="post" action="{{ route('rental.store') }}" class="form" enctype="multipart/form-data">
@@ -23,7 +23,7 @@
                             </div>
                             <div class="col-6 mb-3">
                                 <div class="form-group">
-                                    <label for="spec">PC Spec</label>
+                                    <label for="spec">Car Spec</label>
                                     <textarea type="text" name="spec" placeholder="Spec" required autocomplete="spec" class="form-control" ></textarea>
                                     @error('spec')
                                     <div class="alert alert-danger">{{ $message }}</div>
@@ -32,7 +32,7 @@
                             </div>
                             <div class="col-6 mb-3">
                                 <div class="form-group">
-                                    <label for="count">Number of laptops</label>
+                                    <label for="count">Number of cars</label>
                                     <input type="number" name="count" placeholder="Count" required autocomplete="count" class="form-control" min="1"/>
                                     @error('count')
                                     <div class="alert alert-danger">{{ $message }}</div>
@@ -77,7 +77,7 @@
                             <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label for="categories[]">Categories</label>
-                                    
+
                                     @foreach ($categories as $category )
                                     <div class="form-check">
                                         <input name="categories[]" class="form-check-input" type="checkbox" value="{{ $category->id }}" >
@@ -92,6 +92,21 @@
                                     @enderror
                                 </div>
                             </div>
+
+                            <div class="col-6 mb-3">
+                                <div class="form-group">
+                                    <label for="shop">Shop</label>
+                                    <select id="shop" name="shop" placeholder="Shop" required class="form-control">
+                                        @foreach ($shops as $shop)
+                                            <option value="{{ $shop->id }}">{{ $shop->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('shop')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="col-12 mb-3">
                             <button type="submit" name="save" class="btn btn-primary">Create</button>
                             </div>

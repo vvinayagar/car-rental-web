@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Brand') }}</div>
 
                 <div class="card-body">
-                    <form method="post" action="{{ route('brand.store') }}" class="form" >
+                    <form method="post" action="{{ route('brand.store') }}" class="form" enctype="multipart/form-data" >
                         @csrf
                         <div class="row">
                             <div class="col-6 mb-3">
@@ -21,7 +21,20 @@
                                         @enderror
                                 </div>
                             </div>
-                            
+
+                            <div class="col-6 mb-3">
+                                <div class="form-group">
+                                    <label for="images">Images</label>
+                                    <input id="images" type="file" name="images[]" placeholder="Images" required class="form-control" multiple />
+                                    <div id="list_images">
+
+                                    </div>
+                                    @error('images')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="col-12 mb-3">
                             <button type="submit" name="save" class="btn btn-primary">Create</button>
                             </div>

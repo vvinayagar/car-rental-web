@@ -7,6 +7,8 @@ use App\Models\RentalModel;
 use App\Models\Category;
 use App\Models\SelectedCategory;
 use App\Models\Brand;
+use App\Models\ShopLocation;
+
 use Auth;
 
 class RentalItemController extends Controller
@@ -31,7 +33,8 @@ class RentalItemController extends Controller
     {
         $categories = Category::all();
         $brands = Brand::all();
-        return view('rental.create', ['categories' => $categories, 'brands' => $brands]);
+        $shops = ShopLocation::all();
+        return view('rental.create', ['categories' => $categories, 'brands' => $brands, 'shops' => $shops]);
     }
 
     /**
@@ -56,6 +59,7 @@ class RentalItemController extends Controller
         $rental->spec = $request->spec;
         $rental->count = $request->count;
         $rental->brand_id = $request->brand;
+        $rental->shop_id = $request->shop;
         $rental->save();
 
         foreach ($request->categories as $category) {

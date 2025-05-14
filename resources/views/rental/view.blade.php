@@ -5,10 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Rental Laptops') }}</div>
+                <div class="card-header">{{ __('Rental Cars') }}</div>
 
                 <div class="card-body">
-                
+
                         <div class="row">
                             <div class="col-6 mb-3">
                                 <div class="form-group">
@@ -21,7 +21,7 @@
                             </div>
                             <div class="col-6 mb-3">
                                 <div class="form-group">
-                                    <label for="spec">PC Spec</label>
+                                    <label for="spec">Car Specs</label>
                                     <textarea type="text" name="spec" placeholder="Spec" required autocomplete="spec" class="form-control" disabled >{{ $rental->spec }}</textarea>
                                     @error('spec')
                                         <div class="alert alert-danger">{{ $message }}</div>
@@ -30,7 +30,7 @@
                             </div>
                             <div class="col-6 mb-3">
                                 <div class="form-group">
-                                    <label for="count">Number of laptops</label>
+                                    <label for="count">Number of cars</label>
                                     <input type="number" name="count" placeholder="Count" required autocomplete="count" class="form-control" min="1" value="{{ $rental->count }}" disabled/>
                                     @error('count')
                                         <div class="alert alert-danger">{{ $message }}</div>
@@ -75,11 +75,14 @@
                             <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label for="images">Categories</label>
-                                    
+
                                     @foreach ($categories as $category )
-                                    
+
                                     <div class="form-check">
-                                        <input name="categories[]" class="form-check-input" type="checkbox" value="{{ $category->id }} @if(count(App\Models\SelectedCategory::where(['id'=> $category->id , 'rental_id'=> $category->rental_id])->all()) > 0) checked @endif" disabled />
+                                        <input name="categories[]" class="form-check-input" type="checkbox"
+    value="{{ $category->id }}"
+    @if(\App\Models\SelectedCategory::where('category_id', $category->id)->where('rental_model_id', $rental->id)->exists()) checked @endif
+    disabled />
                                         <label class="form-check-label" for="categories[]">
                                             {{ $category->name }}
                                         </label>
@@ -92,7 +95,7 @@
                                 </div>
                             </div>
                         </div>
-                
+
                 </div>
             </div>
         </div>

@@ -99,6 +99,7 @@
                             <div class="col-md-6">
                                 <select class="form-control" name="privilege" id="privilege" >
                                     <option value="admin">Admin</option>
+                                    <option value="branch">Branch</option>
                                     <option value="user">User</option>
                                 </select>
 

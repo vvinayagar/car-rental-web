@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\UpdateBrandRequest;
+use Illuminate\Http\Request;
 
 class BrandController extends Controller
 {
@@ -35,10 +36,24 @@ class BrandController extends Controller
      * @param  \App\Http\Requests\StoreBrandRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreBrandRequest $request)
+    public function store(Request $request)
     {
         $brand = new Brand();
         $brand->name = $request->name;
+
+
+        $images = array();
+        $n = 0;
+        foreach ($request->file('images') as $image) {
+            $imgName = $n . time().'.'.$image->extension();
+            $image->move(public_path('images'), $imgName);
+
+            array_push($images, $imgName);
+            $n ++;
+        }
+
+        $brand->images = json_encode($images);
+
         $brand->save();
 
         return redirect()->route('brand.index');

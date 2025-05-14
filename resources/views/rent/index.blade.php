@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-4">
             <div class="mb-4">
-                <button onclick="window.location= '{{ route('rental.create') }}'" type="button" class="btn btn-primary">Create</button>
+                <button onclick="window.location= '{{ route('rent.create') }}'" type="button" class="btn btn-primary">Create</button>
             </div>
         </div>
         <div class="col-md-8">

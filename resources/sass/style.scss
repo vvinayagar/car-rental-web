@@ -11209,6 +11209,12 @@ height: 50vh;
 /* Declare heights because of positioning of img element */
 .carousel-item {
     height: 50vh;
+
+    .bd-placeholder-img{
+        height: 50vh;
+        width: 100vw;
+        object-fit: cover;
+    }
 }
 .carousel-item > img {
   position: absolute;
@@ -11218,4 +11224,25 @@ height: 50vh;
   height: 32rem;
 }
 
+}
+
+.img-thumbnail{
+  background-color: gray;
+}
+
+
+.rentals{
+    .card{
+
+        .card-body{
+
+        }
+        
+        .card-footer{
+            display: flex;
+            button{
+
+            }
+        }
+    }
 }
