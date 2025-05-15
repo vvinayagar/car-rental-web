@@ -30,6 +30,11 @@ class CheckoutController extends Controller
         // Calculate total
         $total = collect($cart)->sum(fn($item) =>  Plan::find($item['plan'] )->price * $item['quantity'] * $item['days']);
 
+        $shop = 0;
+        foreach ($cart as $productId => $item) {
+            $shop = $item['shop'];
+        }
+
         // Create purchase
         $purchase = Purchase::create([
             'user_id' => Auth::id(),
@@ -41,7 +46,9 @@ class CheckoutController extends Controller
             'quantity' => 1,
             'payment_type' => 'demo',
             'payment_name'=> 'demo',
+            'shop' => $shop
         ]);
+
 
         // Add items if paid
         if ($isPaymentSuccessful) {

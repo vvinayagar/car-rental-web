@@ -87,6 +87,20 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="LoginType"
+                                class="col-md-4 col-form-label text-md-right">{{ __('Branch') }}</label>
+
+                            <div class="col-md-6">
+                                <select class="form-control" name="shop" id="shop" >
+                                    @foreach ($shops as $shop)
+                                    <option value="{{ $shop->id }}">{{ $shop->name }}</option>
+                                    @endforeach
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="phone"
                                 class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label>
 

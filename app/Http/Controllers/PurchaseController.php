@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Purchase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PurchaseController extends Controller
 {
@@ -12,8 +13,15 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        $purchases = Purchase::where("status", 'paid')->get();
-        return view('purchase.index', compact('purchases'));
+        if (Auth::user()->role == "admin") {
+            $purchases = Purchase::where("status", 'paid')->get();
+            return view('purchase.index', compact('purchases'));
+        }
+        else if(Auth::user()->role == 'branch') {
+            $purchases = Purchase::where(["status"=> 'paid', 'shop_location_id' => Auth::user()->profile->shop_location_id])->get();
+            return view('purchase.index', compact('purchases'));
+        }
+
     }
 
     /**
@@ -61,7 +69,8 @@ class PurchaseController extends Controller
      */
     public function destroy(Purchase $purchase)
     {
-        //
+        $purchase->delete();
+        return redirect()->route('purchase.index')->with('success', 'Info Removed');
     }
 
     public function approve(Request $request, Purchase $purchase)

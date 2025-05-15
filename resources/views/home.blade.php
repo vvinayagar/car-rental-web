@@ -85,6 +85,26 @@
 
     <div class="rentals row" data-masonry='{"percentPosition": true }'>
 
+@php
+
+@endphp
+
+<div class="col-12 filter">
+    <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link {{ $filter == 0 ? 'active' : '' }}" aria-current="page" href="{{ route('home') }}">All</a>
+        </li>
+@foreach ($shops as $shop)
+<li class="nav-item">
+    <a class="nav-link  {{ $filter ==  $shop->id ? 'active' : '' }}" href="{{ route('home', ['filter' => $shop->id ]) }}">{{ $shop->name }}</a>
+  </li>
+@endforeach
+
+
+      </ul>
+
+</div>
+
 @foreach ($rentals as $rental)
 <div class="col-sm-6 col-lg-4 mb-4">
 

@@ -19,7 +19,8 @@ class Purchase extends Model
         'approval_status',
         'quantity',
         'payment_type',
-        'payment_name'
+        'payment_name',
+        'shop'
     ];
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Privilege;
+use App\Models\ShopLocation;
 use App\Rules\UserExist;
 use App\Models\User;
 use App\Models\Profile;
@@ -29,9 +30,9 @@ class AdminUserManageController extends Controller
             $customUser["id"] = $user->id;
             $customUser["name"] = $user->name;
             $customUser["email"] = $user->email;
-          
+
                 $customUser["privilege"] = $user->role;
-            
+
             array_push($userlist, $customUser);
         }
 
@@ -88,7 +89,7 @@ class AdminUserManageController extends Controller
 
         $profile->save();
 
-       
+
 
         $user->assignRole($request->privilege);
 
@@ -131,7 +132,7 @@ class AdminUserManageController extends Controller
     {
         $user = User::where("id", $id)->first();
         $profile = Profile::where("user_id", $id)->first();
-
+        $shops = ShopLocation::all();
          if(!isset($profile))
         {
             $profile = new Profile();
@@ -143,7 +144,7 @@ class AdminUserManageController extends Controller
 
         return view(
             "adminusermanage.edit",
-            ["user" => $user, "profile" => $profile]
+            ["user" => $user, "profile" => $profile, "shops"=> $shops]
         );
     }
 
@@ -174,11 +175,12 @@ class AdminUserManageController extends Controller
         if (!isset($profile)) {
             $profile = new Profile();
         }
-        
+
         $profile->address = $request->address;
         $profile->phone = $request->phone;
         $profile->user_id = $user->id;
-        
+        $profile->shop_location_id = $request->shop;
+
         $profile->save();
 
         return redirect()->route('user.index');
@@ -200,7 +202,7 @@ class AdminUserManageController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
         }
-      
+
 
         return redirect()->route('user.index');
     }

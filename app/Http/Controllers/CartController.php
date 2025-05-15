@@ -28,6 +28,17 @@ class CartController extends Controller
 
          $cart = session()->get('cart', []);
 
+        $diffBranch = false;
+
+        foreach ($cart as $productId => $value) {
+if($rental->shop->id != $value["shop"]){
+$diffBranch = true;
+}
+        }
+        if ($diffBranch) {
+            return redirect()->back()->with('error', 'Please add same branch cars or remove the cars!');
+        }
+
         if (isset($cart[$productId])) {
             $cart[$productId]['quantity'] += $quantity;
         } else {
@@ -45,7 +56,9 @@ class CartController extends Controller
                 'quantity' => $quantity,
                 'start_date' => $request->startDate,
                 'end_date' => $request->endDate,
-                'days' => $diff
+                'days' => $diff,
+                'shop'=> $rental->shop->id,
+
             ];
         }
 

@@ -43,6 +43,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function profile()
+    {
+        return $this->belongsTo(Profile::class, "user_id");
+    }
+
     public const ROLE_ADMIN = 'admin';
     public const ROLE_BRANCH = 'branch';
     public const ROLE_USER = 'user';

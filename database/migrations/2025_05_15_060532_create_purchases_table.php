@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('payment_status')->default('pending');
             $table->string('transaction_id')->nullable();
             $table->decimal('amount', 10, 2);
+            $table->integer('shop')->default(0);
             $table->timestamps();
         });
     }
