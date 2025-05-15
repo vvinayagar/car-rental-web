@@ -33,7 +33,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarsExample02">
-                    <ul class="navbar-nav me-auto">
+                    <ul class="navbar-nav ms-auto">
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
@@ -71,7 +71,7 @@
                                 <a class="nav-link" href="{{ route('plan.index') }}">{{ __('Plan') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('rent.index') }}">{{ __('Rent') }}</a>
+                                <a class="nav-link" href="{{ route('purchase.index') }}">{{ __('Purchase') }}</a>
                             </li>
 
                             <li class="nav-item">
@@ -98,6 +98,16 @@
                             </li>
                             @endguest
                         </ul>
+                        <div>
+                            <a href="{{ route('cart.view') }}" class="nav-link position-relative">
+                                🛒 Cart
+                                @if($cartItemCount > 0)
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{ $cartItemCount }}
+                                    </span>
+                                @endif
+                            </a>
+                        </div>
 
                     </div>
                 </div>

@@ -1,101 +1,74 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Rental Laptops') }}</div>
+<div class="container py-4">
+    <h2 class="mb-4">Shopping Cart</h2>
 
-                <div class="card-body">
-                
-                        <div class="row">
-                            <div class="col-6 mb-3">
-                                <div class="form-group">
-                                    <label for="name">Name</label>
-                                    <input type="text" name="name" placeholder="Name" required autocomplete="name" value="{{ $rental->name }}" class="form-control" disabled />
-                                        @error('name')
-                                            <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror
-                                </div>
-                            </div>
-                            <div class="col-6 mb-3">
-                                <div class="form-group">
-                                    <label for="spec">PC Spec</label>
-                                    <textarea type="text" name="spec" placeholder="Spec" required autocomplete="spec" class="form-control" disabled >{{ $rental->spec }}</textarea>
-                                    @error('spec')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-6 mb-3">
-                                <div class="form-group">
-                                    <label for="count">Number of laptops</label>
-                                    <input type="number" name="count" placeholder="Count" required autocomplete="count" class="form-control" min="1" value="{{ $rental->count }}" disabled/>
-                                    @error('count')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-6 mb-3">
-                                <div class="form-group">
-                                    <label for="thumbnail">Thumbnail</label>
-                                    <input type="file" id="thumbnail" name="thumbnail" placeholder="Thumbnail" class="form-control" disabled />
-                                    <img style="display: none;" alt="thumbnail" class="img-responsive" />
-                                    @error('thumbnail')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-6 mb-3">
-                                <div class="form-group">
-                                    <label for="images">Images</label>
-                                    <input id="images" type="file" name="images[]" placeholder="Images" class="form-control" multiple disabled />
-                                    <div id="list_images">
+    @if(session('cart') && count(session('cart')) > 0)
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col">Name</th>
+                        <th scope="col" style="width: 120px;">Quantity</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Unit Price</th>
+                        <th scope="col">Total</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php $grandTotal = 0; @endphp
 
-                                    </div>
-                                    @error('images')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-6 mb-3">
-                                <div class="form-group">
-                                    <label for="brand">Brand</label>
-                                    <select id="brand" name="brand" placeholder="Brand" required class="form-control" disabled>
-                                        @foreach ($brands as $brand)
-                                            <option value="{{ $brand->id }}" @if($rental->brand == $brand->id) selected @endif>{{ $brand->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('brand')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-6 mb-3">
-                                <div class="form-group">
-                                    <label for="images">Categories</label>
-                                    
-                                    @foreach ($categories as $category )
-                                    
-                                    <div class="form-check">
-                                        <input name="categories[]" class="form-check-input" type="checkbox" value="{{ $category->id }} @if(count(App\Models\SelectedCategory::where(['id'=> $category->id , 'rental_id'=> $category->rental_id])->all()) > 0) checked @endif" disabled />
-                                        <label class="form-check-label" for="categories[]">
-                                            {{ $category->name }}
-                                        </label>
-                                    </div>
-                                    @endforeach
+                    @foreach(session('cart') as $id => $item)
+                        @php
+                            $rentalModel = App\Models\RentalModel::find($id);
+                            $plan = App\Models\Plan::find($item['plan']);
+                            $total =  $plan->price *  $item['quantity'] * $item['days'];//$item['price'] * $item['quantity'];
+                            $grandTotal += $total;
+                        @endphp
+                        <tr>
+                            <td>
+                                <img src="{{ asset('images/' . json_decode($rentalModel->images)[0])   }}" class="img-fluid rounded" style="max-width: 80px;" alt="product">
+                            </td>
+                            <td>{{ $rentalModel->name }}</td>
+                            <td>
+                                <form action="{{ route('cart.update', $id) }}" method="POST" class="d-flex">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1" class="form-control form-control-sm me-2" style="width: 70px;">
+                                    <button class="btn btn-outline-secondary btn-sm">Update</button>
+                                </form>
+                            </td>
+                            <td>{{ $item['start_date'] }}</td>
+                            <td>{{ $item['end_date'] }}</td>
 
-                                    @error('categories')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                
+                            <td>${{ number_format($plan->price , 2) }}</td>
+                            <td>${{ number_format($total, 2) }}</td>
+                            <td>
+                                <a href="{{ route('cart.remove', $id) }}" class="btn btn-danger btn-sm">Remove</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+            <div class="card shadow-sm p-3" style="min-width: 300px;">
+                <h5 class="mb-3">Cart Summary</h5>
+                <div class="d-flex justify-content-between">
+                    <span>Subtotal:</span>
+                    <strong>${{ number_format($grandTotal, 2) }}</strong>
                 </div>
+                <hr>
+                <a href="{{ route('cart.detail') }}" class="btn btn-success w-100 mt-2">Proceed to Checkout</a>
             </div>
         </div>
-    </div>
+    @else
+        <div class="alert alert-info">Your cart is empty.</div>
+    @endif
 </div>
 @endsection

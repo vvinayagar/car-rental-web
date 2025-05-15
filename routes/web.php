@@ -30,16 +30,36 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('category', App\Http\Controllers\CategoryController::class);
         Route::resource('plan', App\Http\Controllers\PlanController::class);
         Route::resource('rent', App\Http\Controllers\RentController::class);
-        Route::resource('user', App\Http\Controllers\AdminUserManageController::class);
+
         Route::resource('shop', App\Http\Controllers\ShopController::class);
+        Route::resource('purchase', App\Http\Controllers\PurchaseController::class);
+        Route::get('/purchase/approve/{purchase}', [App\Http\Controllers\PurchaseController::class, 'approve'])->name('purchase.approve');
+        Route::get('/purchase/reject/{purchase}', [App\Http\Controllers\PurchaseController::class, 'reject'])->name('purchase.reject');
+
 
     });
+
+    Route::middleware(['role:admin'])->group(function () {
+        Route::resource('user', App\Http\Controllers\AdminUserManageController::class);
+
+    });
+
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::prefix('cart')->name('cart.')->group(function () {
 
-        Route::get('/product', [App\Http\Controllers\CartController::class, 'index'])->name('product');
+        Route::get('/all', [App\Http\Controllers\CartController::class, 'view'])->name('view');
+        Route::get('/product/{rental}', [App\Http\Controllers\CartController::class, 'index'])->name('product');
+        Route::post('/add/{rental}', [App\Http\Controllers\CartController::class, 'add'])->name('add');
+        Route::get('/remove/{rental}', [App\Http\Controllers\CartController::class, 'remove'])->name('remove');
+        Route::put('/update/{rental}', [App\Http\Controllers\CartController::class, 'update'])->name('update');
+        Route::get('/detail', [App\Http\Controllers\CartController::class, 'detail'])->name('detail');
 
+
+    });
+
+    Route::prefix('checkout')->name('checkout.')->group(function () {
+        Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'checkout'])->name('checkout');
     });
 });
 
