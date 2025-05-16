@@ -55,7 +55,7 @@
                                                     min="{{ \Carbon\Carbon::now()->addDays(2)->format('Y-m-d') }}" />
                                             </div>
                                             <div class="col">
-                                                <label for="startDate" class="form-label">End Date</label>
+                                                <label for="endDate" class="form-label">End Date</label>
                                                 <input name="endDate" id="endDate" class="form-control" type="date"
                                                    min="{{ \Carbon\Carbon::now()->addDays(2)->format('Y-m-d') }}" />
                                             </div>
@@ -123,4 +123,24 @@
             startInput.dispatchEvent(new Event('change'));
         });
         </script>
+
+<script>
+       const blockedDates = {!! $blockedDatesJson !!};
+    const inputStart = document.getElementById("startDate");
+    const inputEnd = document.getElementById("endDate");
+
+    inputStart.addEventListener("input", function () {
+        if (blockedDates.includes(this.value)) {
+            alert("Selected date is not allowed.");
+            this.value = ""; // Clear the invalid date
+        }
+    });
+
+    inputStart.addEventListener("input", function () {
+        if (blockedDates.includes(this.value)) {
+            alert("Selected date is not allowed.");
+            this.value = ""; // Clear the invalid date
+        }
+    });
+</script>
 @endsection
