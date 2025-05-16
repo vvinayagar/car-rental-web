@@ -70,14 +70,17 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('plan.index') }}">{{ __('Plan') }}</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('purchase.index') }}">{{ __('Purchase') }}</a>
-                            </li>
+
 
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('user.index') }}">{{ __('User') }}</a>
                             </li>
                             @endrole
+                              @role('admin|branch')
+                              <li class="nav-item">
+                                <a class="nav-link" href="{{ route('purchase.index') }}">{{ __('Purchase') }}</a>
+                            </li>
+                              @endrole
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
