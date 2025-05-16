@@ -32,7 +32,7 @@
                             </div>
                             <div class="col-6 mb-3">
                                 <div class="form-group">
-                                    <label for="count">Number of laptops</label>
+                                    <label for="count">Number of Cars</label>
                                     <input type="number" name="count" placeholder="Count" required autocomplete="count" class="form-control" min="1" value="{{ $rental->count }}"/>
                                     @error('count')
                                         <div class="alert alert-danger">{{ $message }}</div>
