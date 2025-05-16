@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PurchaseItem;
 use App\Models\Rent;
 use App\Models\RentalModel;
 use Illuminate\Http\Request;
@@ -15,9 +16,27 @@ class CartController extends Controller
      */
     public function index(RentalModel $rental)
     {
+        $purchaseItems =PurchaseItem::where("rental_model_id", $rental->id)->get();
 
+        $blockedDates = [];
+
+
+        foreach ($purchaseItems as $item) {
+            $start = \Carbon\Carbon::parse($item->start_date)->startOfDay();
+            $end = \Carbon\Carbon::parse($item->end_date)->startOfDay();
+
+            // Loop through the date range
+            while ($start->lte($end)) {
+                $blockedDates[] = $start->format('Y-m-d');
+                $start->addDay();
+            }
+        }
+
+        // Optional: remove duplicates
+        $blockedDates = array_unique($blockedDates);
+        $blockedDatesJson = json_encode(array_values($blockedDates));
         $plans = Plan::all();
-        return view("cart.index", compact("rental", "plans"));
+        return view("cart.index", compact("rental", "plans", "blockedDates", "blockedDatesJson"));
     }
 
     public function add(Request $request, RentalModel $rental)

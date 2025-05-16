@@ -180,7 +180,7 @@ class AdminUserManageController extends Controller
         $user->save();
         $user->role = $request->privilege;
         $user->save();
-
+        $user->syncRoles([$request->privilege]); //
         $user->assignRole($request->privilege);
         $user->save();
 

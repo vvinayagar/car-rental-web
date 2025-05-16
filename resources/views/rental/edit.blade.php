@@ -52,7 +52,7 @@
                             <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label for="images">Images</label>
-                                    <input id="images" type="file" name="images[]" placeholder="Images" class="form-control" multiple />
+                                    <input id="images" type="file" name="images[]" placeholder="Images" class="form-control" multiple-+ />
                                     <div id="list_images">
 
                                     </div>

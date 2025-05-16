@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class PurchaseController extends Controller
 {
@@ -18,7 +19,9 @@ class PurchaseController extends Controller
             return view('purchase.index', compact('purchases'));
         }
         else if(Auth::user()->role == 'branch') {
-            $purchases = Purchase::where(["status"=> 'paid', 'shop_location_id' => Auth::user()->profile->shop_location_id])->get();
+$user = User::where('id', Auth::user()->id)->first();
+
+            $purchases = Purchase::where(["status"=> 'paid', 'shop' => Auth::user()->profile->shop_location_id])->get();
             return view('purchase.index', compact('purchases'));
         }
 
@@ -45,7 +48,7 @@ class PurchaseController extends Controller
      */
     public function show(Purchase $purchase)
     {
-        //
+        return view('Purchase.View', compact('purchase'));
     }
 
     /**
