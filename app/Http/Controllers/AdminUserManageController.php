@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Profile;
 use Hamcrest\Core\IsNull;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -46,7 +47,8 @@ class AdminUserManageController extends Controller
      */
     public function create()
     {
-        return view("adminusermanage.create");
+        $shops = ShopLocation::all();
+        return view("adminusermanage.create", ["shops"=> $shops]);
     }
 
     /**
@@ -82,11 +84,17 @@ class AdminUserManageController extends Controller
         $user->name = $request->name;
         $user->save();
 
+        $user->role = $request->privilege;
+        $user->save();
+
+        $user->assignRole($request->privilege);
+        $user->save();
+
         $profile = new Profile();
         $profile->address = $request->address;
         $profile->phone = $request->phone;
         $profile->user_id = $user->id;
-
+        $profile->shop_location_id = $request->shop;
         $profile->save();
 
 
@@ -169,6 +177,11 @@ class AdminUserManageController extends Controller
 
         $user->email = $request->email;
         $user->name = $request->name;
+        $user->save();
+        $user->role = $request->privilege;
+        $user->save();
+
+        $user->assignRole($request->privilege);
         $user->save();
 
         $profile = Profile::where("user_id", $id)->first();

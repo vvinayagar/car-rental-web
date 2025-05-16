@@ -2,7 +2,7 @@
 
 @section('content')
 <script type="application/javascript">
- 
+
 </script>
 <div class="container">
     <div class="row justify-content-center">
@@ -11,7 +11,7 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="/admin/user">
+                    <form method="POST" action="{{ route('user.store') }}">
                         @csrf
 
                         <div class="form-group row">
@@ -107,6 +107,20 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="LoginType"
+                                class="col-md-4 col-form-label text-md-right">{{ __('Branch') }}</label>
+
+                            <div class="col-md-6">
+                                <select class="form-control" name="shop" id="shop" >
+                                    @foreach ($shops as $shop)
+                                    <option value="{{ $shop->id }}">{{ $shop->name }}</option>
+                                    @endforeach
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="phone"
                                 class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label>
 
@@ -139,7 +153,7 @@
                                 @enderror
                             </div>
                         </div>
-                        
+
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
