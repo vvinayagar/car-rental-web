@@ -80,7 +80,7 @@
 @endif
 
                                         <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('purchase.show', ['purchase' => $purchase->id]) }}'" >View</button>
-                                        <button type="button" class="btn btn-warning" onclick="window.location='{{ route('purchase.edit', ['purchase' => $purchase->id]) }}'" >Edit</button>
+                                        {{-- <button type="button" class="btn btn-warning" onclick="window.location='{{ route('purchase.edit', ['purchase' => $purchase->id]) }}'" >Edit</button> --}}
                                         <form method="post" action="{{ route('purchase.destroy', ['purchase' => $purchase->id]) }}">
                                         @csrf
                                         @method('delete')

@@ -26,4 +26,8 @@ class PurchaseItem extends Model
     {
         return $this->belongsTo(RentalModel::class);
     }
+
+    public function plan(){
+        return $this->belongsTo(Plan::class);
+    }
 }
