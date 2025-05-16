@@ -171,13 +171,13 @@ class RentalItemController extends Controller
         // $name = $request->file('thumbnail')->getClientOriginalName();
         // $path = $request->file('thumbnail')->store('public/files');
 
-        if (isset($request->thumbnail) && $request->file('thumbnail')->isValid()) {
+        if (isset($request->thumbnail) && $request->hasFile('thumbnail')) {
             $imageName = time().'.'.$request->thumbnail->extension();
 
             $request->thumbnail->move(public_path('images'), $imageName);
             $rental->thumbnail = $imageName ;
         }
-        if ( isset($request->images) && $request->file('images')->isValid()) {
+        if ( isset($request->images) && $request->hasFile('images')) {
             $images = array();
             $n = 0;
             foreach ($request->file('images') as $image) {
