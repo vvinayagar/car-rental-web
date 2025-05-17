@@ -25,7 +25,7 @@
     <header>
         <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/">Easy Car Enterprise (ECE)</a>
+                <a class="navbar-brand" href="{{ route('home') }}">Easy Car Enterprise (ECE)</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -79,6 +79,11 @@
                               @role('admin|branch')
                               <li class="nav-item">
                                 <a class="nav-link" href="{{ route('purchase.index') }}">{{ __('Purchase') }}</a>
+                            </li>
+                              @endrole
+                              @role('user')
+                              <li class="nav-item">
+                                <a class="nav-link" href="{{ route('customer_purchase.index') }}">{{ __('Purchase') }}</a>
                             </li>
                               @endrole
                             <li class="nav-item dropdown">

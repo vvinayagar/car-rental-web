@@ -41,7 +41,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['role:admin'])->group(function () {
         Route::resource('user', App\Http\Controllers\AdminUserManageController::class);
+    });
 
+    Route::middleware(['role:user'])->group(function () {
+        Route::resource('customer_purchase', App\Http\Controllers\CustomerBookingController::class);
     });
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
