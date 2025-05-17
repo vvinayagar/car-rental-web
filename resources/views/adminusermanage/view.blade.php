@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('User details') }}</div>
 
                 <div class="card-body">
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
                         <div class="col-md-6">
@@ -17,7 +17,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address')
                             }}</label>
 
@@ -27,19 +27,34 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <label for="LoginType" class="col-md-4 col-form-label text-md-right">{{ __('Privilege')
                             }}</label>
 
                         <div class="col-md-6">
                             <select class="form-control" name="privilege" id="privilege" disabled>
-                                <option value="admin" @if($privilege->name == 'admin') selected @endif>Admin</option>
-                                <option value="user" @if($privilege->name == 'user') selected @endif>User</option>
+                                <option value="admin" @if($user->role == 'admin') selected @endif>Admin</option>
+                                <option value="user" @if($user->role == 'branch') selected @endif>Branch</option>
+                                <option value="user" @if($user->role == 'user') selected @endif>User</option>
                             </select>
                         </div>
                     </div>
-
+@if($user->role != 'user')
                     <div class="form-group row">
+                            <label for="LoginType"
+                                class="col-md-4 col-form-label text-md-right">{{ __('Branch') }}</label>
+
+                            <div class="col-md-6">
+                                <select class="form-control" name="shop" id="shop" >
+                                    @foreach ($shops as $shop)
+                                    <option value="{{ $shop->id }}" @if($user->profile->shop->id == $shop->id ) selected @endif>{{ $shop->name }}</option>
+                                    @endforeach
+                                </select>
+
+                            </div>
+                        </div>
+@endif
+                    <div class="form-group row mb-3">
                         <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label>
 
                         <div class="col-md-6">
@@ -48,7 +63,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label>
 
                         <div class="col-md-6">
@@ -57,9 +72,9 @@
                         </div>
                     </div>
 
-                    <div class="form-group row mb-0">
+                    <div class="form-group row mb-0 ">
                         <div class="col-md-6 offset-md-4">
-                            <button type="button" class="btn btn-primary" onclick="window.location = '/admin/user'">
+                            <button type="button" class="btn btn-primary" onclick="window.location = '{{route('user.index')}}'">
                                 {{ __('Back') }}
                             </button>
                         </div>

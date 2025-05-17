@@ -60,7 +60,7 @@
                             <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label for="name">State</label>
-                                    <input type="text" name="city" placeholder="state" required autocomplete="state"
+                                    <input type="text" name="state" placeholder="state" required autocomplete="state"
                                         class="form-control" />
                                         @error('state')
                                             <div class="alert alert-danger">{{ $message }}</div>
