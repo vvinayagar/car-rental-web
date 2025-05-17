@@ -70,7 +70,7 @@
 
                             <div class="col-6 mb-3">
                                 <div class="form-group">
-                                    <label for="name">State</label>
+                                    <label for="name">Country</label>
                                     <select name="country" id="country" class="form-control">
                                         <option value="">-- Select Country --</option>
                                         <option value="AF">Afghanistan</option>
