@@ -1,7 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container mt-3">
+
+
+
+        @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @elseif (session('failed'))
+    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+        {{ session('failed') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
+
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -77,7 +94,7 @@
                                 class="col-md-4 col-form-label text-md-right">{{ __('Privilege') }}</label>
 
                             <div class="col-md-6">
-                                <select class="form-control" name="privilege" id="privilege" >
+                                <select class="form-control" name="privilege" id="privilege" disabled >
                                     <option value="admin" @if($user->role == 'admin') selected  @endif>Admin</option>
                                     <option value="branch" @if($user->role == 'branch') selected  @endif>Branch</option>
                                     <option value="user" @if($user->role == 'user') selected  @endif>User</option>
@@ -91,7 +108,7 @@
                                 class="col-md-4 col-form-label text-md-right">{{ __('Branch') }}</label>
 
                             <div class="col-md-6">
-                                <select class="form-control" name="shop" id="shop" >
+                                <select class="form-control" name="shop" id="shop"  disabled>
                                     @foreach ($shops as $shop)
                                     <option value="{{ $shop->id }}">{{ $shop->name }}</option>
                                     @endforeach

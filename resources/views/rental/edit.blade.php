@@ -66,7 +66,7 @@
                                     <label for="brand">Brand</label>
                                     <select id="brand" name="brand" placeholder="Brand" required class="form-control">
                                         @foreach ($brands as $brand)
-                                            <option value="{{ $brand->id }}" @if($rental->brand->id == $brand->id) selected @endif>{{ $brand->name }}</option>
+                                            <option value="{{ $brand->id }}" @if( $rental->brand != null && $rental->brand->id == $brand->id) selected @endif>{{ $brand->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('brand')

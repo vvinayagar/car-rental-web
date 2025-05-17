@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profile;
 use App\Models\ShopLocation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -56,34 +58,41 @@ class ProfileController extends Controller
      */
     public function update(Request $request, User $profile)
     {
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'email' => 'required'
-        ]);
-
+        // $validatedData = $profile->validate([
+        //     'name' => 'required',
+        //     'email' => 'required'
+        // ]);
 
         if (isset($request->password) && trim($request->password) != "") {
-            $profile->password = Hash::make($request->password);
+         
+         if(!isset($request->password_confirmation) || $request->password != $request->password_confirmation){
+ return redirect()->route('profile.edit', ['profile' => $profile])->with('failed', 'Password not matched!');
+         }else{
+ $profile->password = Hash::make($request->password);
+         }
+           
         }
 
-        $profile->email = $request->email;
+        $profile->email = $profile->email;
         $profile->name = $request->name;
         $profile->save();
-        $profile->role = $request->privilege;
-        $profile->save();
-        $profile->syncRoles([$request->privilege]); //
-        $profile->assignRole($request->privilege);
-        $profile->save();
+
 
         $pprofile = $profile->profile;
         if (!isset($pprofile)) {
             $pprofile = new Profile();
+             $pprofile->shop_location_id = 1;
         }
 
         $pprofile->address = $request->address;
         $pprofile->phone = $request->phone;
         $pprofile->user_id = $profile->id;
+
+       if(!Auth::user()->role == "user"){
         $pprofile->shop_location_id = $request->shop;
+
+        }
+
 
         $pprofile->save();
 

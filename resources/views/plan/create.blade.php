@@ -40,7 +40,7 @@
                             <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label for="spec">Rental Type</label>
-                                   <select id="brand" name="rental" placeholder="Rental" required class="form-control">
+                                   <select id="rental" name="rental" placeholder="Rental" required class="form-control">
                                         @foreach ($rentals as $rental)
                                             <option value="{{ $rental->id }}">{{ $rental->name }}</option>
                                         @endforeach
