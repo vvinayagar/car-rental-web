@@ -168,7 +168,7 @@
 <script>
     const blockedDates = {!! $blockedDatesJson !!}; // Fully blocked (100% booked)
     const availableCount = @json($availableCountPerDate); // e.g., { "2025-05-18": 2 }
-    const maxCars = 2;//{{ $rental->count }}; // Total available cars
+    const maxCars = {{ $rental->count }}; // Total available cars
 
     const inputStart = document.getElementById("startDate");
     const inputEnd = document.getElementById("endDate");
