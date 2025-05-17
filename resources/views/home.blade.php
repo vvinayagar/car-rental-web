@@ -13,8 +13,8 @@
 <img class="bd-placeholder-img" src="/images/pexels-brett-sayles-1638459.jpg" />
         <div class="container">
           <div class="carousel-caption text-start">
-            <h1>Example headline.</h1>
-            <p>Some representative placeholder content for the first slide of the carousel.</p>
+            <h1>Welcome to Easy Car Enterprise</h1>
+            <p>Easy Car Rental For You</p>
             <!--<p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>-->
           </div>
         </div>
@@ -23,9 +23,9 @@
         <img class="bd-placeholder-img" src="/images/pexels-mikebirdy-977003.jpg" />
         <div class="container">
           <div class="carousel-caption">
-            <h1>Another example headline.</h1>
-            <p>Some representative placeholder content for the second slide of the carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+            <h1>Welcome to Easy Car Enterprise</h1>
+            <p>Easy Car Rental For You</p>
+            <!--<p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>-->
           </div>
         </div>
       </div>
@@ -34,9 +34,9 @@
 
         <div class="container">
           <div class="carousel-caption text-end">
-            <h1>One more for good measure.</h1>
-            <p>Some representative placeholder content for the third slide of this carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+            <h1>Welcome to Easy Car Enterprise</h1>
+            <p>Easy Car Rental For You</p>
+            <!--<p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>-->
           </div>
         </div>
       </div>

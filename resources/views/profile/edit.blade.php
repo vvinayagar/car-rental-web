@@ -5,7 +5,7 @@
 
 
 
-        @if(session('success'))
+    @if(session('success'))
     <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
         {{ session('success') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -15,7 +15,7 @@
         {{ session('failed') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-@endif
+    @endif
 
 
 
@@ -67,7 +67,7 @@
                             <div class="col-md-6">
                                 <input id="password" type="password"
                                     class="form-control @error('password') is-invalid @enderror" name="password"
-                                     autocomplete="new-password" maxlength="8">
+                                    autocomplete="new-password" maxlength="8">
 
                                 @error('password')
                                 <span class="invalid-feedback" role="alert">
@@ -83,7 +83,7 @@
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control"
-                                    name="password_confirmation"  autocomplete="new-password" maxlength="8">
+                                    name="password_confirmation" autocomplete="new-password" maxlength="8">
                             </div>
                         </div>
 
@@ -94,10 +94,10 @@
                                 class="col-md-4 col-form-label text-md-right">{{ __('Privilege') }}</label>
 
                             <div class="col-md-6">
-                                <select class="form-control" name="privilege" id="privilege" disabled >
-                                    <option value="admin" @if($user->role == 'admin') selected  @endif>Admin</option>
-                                    <option value="branch" @if($user->role == 'branch') selected  @endif>Branch</option>
-                                    <option value="user" @if($user->role == 'user') selected  @endif>User</option>
+                                <select class="form-control" name="privilege" id="privilege" disabled>
+                                    <option value="admin" @if($user->role == 'admin') selected @endif>Admin</option>
+                                    <option value="branch" @if($user->role == 'branch') selected @endif>Branch</option>
+                                    <option value="user" @if($user->role == 'user') selected @endif>User</option>
                                 </select>
 
                             </div>
@@ -108,7 +108,7 @@
                                 class="col-md-4 col-form-label text-md-right">{{ __('Branch') }}</label>
 
                             <div class="col-md-6">
-                                <select class="form-control" name="shop" id="shop"  disabled>
+                                <select class="form-control" name="shop" id="shop" disabled>
                                     @foreach ($shops as $shop)
                                     <option value="{{ $shop->id }}">{{ $shop->name }}</option>
                                     @endforeach
@@ -141,7 +141,7 @@
                             <div class="col-md-6">
                                 <textarea id="" type="text"
                                     class="form-control @error('address') is-invalid @enderror" name="address"
-                                     autocomplete="address"> {{ $user->profile->address }} </textarea>
+                                    autocomplete="address"> {{ $user->profile->address }} </textarea>
 
                                 @error('address')
                                 <span class="invalid-feedback" role="alert">
@@ -154,13 +154,13 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
+                                <button type="button" class="btn btn-danger" onclick="window.location = '{{ route('home') }}'">
+                                    {{ __('Back') }}
+                                </button>
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Update') }}
                                 </button>
 
-                                <button type="button" class="btn btn-danger" onclick="window.location = '{{ route('home') }}'">
-                                    {{ __('Back') }}
-                                </button>
                             </div>
                         </div>
                     </form>

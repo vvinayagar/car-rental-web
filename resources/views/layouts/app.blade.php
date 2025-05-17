@@ -62,8 +62,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('category.index') }}">{{ __('Category') }}</a>
                             </li>
-
-
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('rental.index') }}">{{ __('Rental') }}</a>
+                            </li>
 
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('plan.index') }}">{{ __('Plan') }}</a>
@@ -74,7 +75,7 @@
                                 <a class="nav-link" href="{{ route('user.index') }}">{{ __('User') }}</a>
                             </li>
                             @endrole
-                              @role('admin|branch')
+                              @role('branch')
                               <li class="nav-item">
                                 <a class="nav-link" href="{{ route('rental.index') }}">{{ __('Rental') }}</a>
                             </li>

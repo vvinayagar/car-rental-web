@@ -9,7 +9,7 @@
       <a href="#" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Learn more</a>
     </p>
     <button onclick="window.location.href = '/login'" class="btn btn-primary">Login</button>
-    <a href="/register">Haven't register. Clicke here</a>
+    <a href="/register">Haven't register? Click here</a>
   </main>
 </section>
 @endsection

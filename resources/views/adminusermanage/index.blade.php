@@ -22,12 +22,10 @@
 
     }
 </script>
-<div class="container">
+<div class="container mt-3">
     <div class="card">
-        <div class="card-header">{{ __('User Management') }}</div>
-
-        <div class="card-body">
-            <div class="row justify-content-center">
+        <div class="card-header">{{ __('User Management') }}
+            <div class="row justify-content-end">
                 <div class="col-md-2">
                     <div class="btn-group">
                         <button onclick="window.location = '{{ route('user.create') }}'" class="btn btn-primary">
@@ -35,6 +33,12 @@
                         </button>
                     </div>
                 </div>
+            </Div>
+        </div>
+
+        <div class="card-body">
+            <div class="row justify-content-center">
+
                 <div class="col-md-8">
                     <table class="table">
                         <tr>
