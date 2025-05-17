@@ -34,7 +34,7 @@ class RentalModel extends Model
 
     public function selectedCategories()
     {
-        return $this->hasMany(Rent::class, "rental_model_id");
+        return $this->hasMany(SelectedCategory::class, "rental_model_id");
     }
 
     public function plans()

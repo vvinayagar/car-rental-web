@@ -27,7 +27,9 @@
                                 <td>{{ $rental->name }}</td>
                                 <td>{{ $rental->spec }}</td>
                                 <td></td>
-                                <td>{{ $rental->thumbnail }}</td>
+                                <td>
+                                <img class="img-thumbnail" src="{{ asset('images/' . $rental->thumbnail) }}"    alt="car" />
+                                {{ $rental->thumbnail }}</td>
                                 <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('rental.show', ['rental' => $rental->id]) }}'" >View</button>

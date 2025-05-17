@@ -6,6 +6,7 @@ use App\Models\Plan;
 use App\Models\Purchase;
 use App\Models\PurchaseItem;
 use App\Models\RentalModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -54,6 +55,12 @@ class CheckoutController extends Controller
         if ($isPaymentSuccessful) {
             foreach ($cart as $productId => $item) {
 
+$start = Carbon::parse($item['start_date']);
+            $end = Carbon::parse($item['end_date']);
+
+            $diff = $start->diffInDays($end);
+            $diff = $diff + 1;
+
                 $rental = RentalModel::find($productId);
                 $plan = Plan::find($item['plan']);
                 PurchaseItem::create([
@@ -63,7 +70,7 @@ class CheckoutController extends Controller
                     'price' => $plan->price * $item['quantity'] * $item['days'],
                     'status' => 'on-progress',
                     'plan_id'=> $plan->id ,
-                    'days' => $item['days'],
+                    'days' => $diff,
                     'start_date'=> $item['start_date'],
                     'end_date' => $item['end_date'],
 

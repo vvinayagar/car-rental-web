@@ -8,8 +8,8 @@ use App\Models\Category;
 use App\Models\SelectedCategory;
 use App\Models\Brand;
 use App\Models\ShopLocation;
+use Illuminate\Support\Facades\Auth;
 
-use Auth;
 
 class RentalItemController extends Controller
 {
@@ -56,7 +56,8 @@ class RentalItemController extends Controller
             "spec" => "required",
             "count" => "required",
             "thumbnail" => 'required',
-            "images" => 'required'
+            "images" => 'required',
+            // 'categories[]' => 'required'
         ]);
 
         $rental = new RentalModel();
@@ -68,13 +69,13 @@ class RentalItemController extends Controller
         $rental->shop_id = $request->shop;
         $rental->save();
 
-        foreach ($request->categories as $category) {
-            $selectedCategory = new SelectedCategory();
-            $selectedCategory->user_id = Auth::user()->id;
-            $selectedCategory->category_id = $category;
+        // foreach ($request->categories as $category) {
+        //     $selectedCategory = new SelectedCategory();
+        //     $selectedCategory->user_id = Auth::user()->id;
+        //     $selectedCategory->category_id = $category;
 
-            $selectedCategory->rental_model_id =  $rental->id;
-        }
+        //     $selectedCategory->rental_model_id =  $rental->id;
+        // }
 
 
 
@@ -155,7 +156,6 @@ $shops = ShopLocation::all();
             "name" => "required",
             "spec" => "required",
             "count" => "required",
-
         ]);
 
         $rental = RentalModel::find($id);
@@ -164,21 +164,22 @@ $shops = ShopLocation::all();
         $rental->spec = $request->spec;
         $rental->count = $request->count;
         $rental->brand_id = $request->brand;
+         $rental->shop_id = $request->shop;
         $rental->save();
 
-        $sels = SelectedCategory::where('rental_model_id', $rental->id)->get();
+        // $sels = SelectedCategory::where('rental_model_id', $rental->id)->get();
 
-        foreach ($sels as $sel) {
-            $sels->delete();
-        }
+        // foreach ($sels as $sel) {
+        //     $sels->delete();
+        // }
 
-        foreach ($request->categories as $category) {
-            $selectedCategory = new SelectedCategory();
-            $selectedCategory->user_id = Auth::user()->id;
-            $selectedCategory->category_id = $category;
+        // foreach ($request->categories as $category) {
+        //     $selectedCategory = new SelectedCategory();
+        //     $selectedCategory->user_id = Auth::user()->id;
+        //     $selectedCategory->category_id = $category;
 
-            $selectedCategory->rental_model_id =  $rental->id;
-        }
+        //     $selectedCategory->rental_model_id =  $rental->id;
+        // }
 
         // $name = $request->file('thumbnail')->getClientOriginalName();
         // $path = $request->file('thumbnail')->store('public/files');

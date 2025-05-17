@@ -15,7 +15,7 @@
           <div class="carousel-caption text-start">
             <h1>Example headline.</h1>
             <p>Some representative placeholder content for the first slide of the carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+            <!--<p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>-->
           </div>
         </div>
       </div>
@@ -90,7 +90,7 @@
 @endphp
 
 <div class="col-12 filter">
-    <ul class="nav">
+    <!-- <ul class="nav">
         <li class="nav-item">
           <a class="nav-link {{ $filter == 0 ? 'active' : '' }}" aria-current="page" href="{{ route('home') }}">All</a>
         </li>
@@ -101,8 +101,36 @@
 @endforeach
 
 
-      </ul>
+      </ul> -->
+    
 
+      <div class="row">
+        <div class="col-12"> <label>Filters</label></div>
+        <div class="col">
+          <label>Shop</label>
+          <select id="filter" class="form-control">
+            <option value="0">All</option>
+            @foreach ($shops as $shop)
+             <option  {{ $filter ==  $shop->id ? 'selected' : '' }} value="{{ $shop->id }}">{{ $shop->name }}</option>
+             @endforeach
+          </select>
+        </div>
+
+        <div class="col">
+          <label>Brand</label>
+          <select id="brand" class="form-control">
+            <option value="0">All</option>
+            @foreach ($brands as $brandVal)
+             <option  {{ $brand ==  $brandVal->id ? 'selected' : '' }} value="{{ $brandVal->id }}">{{ $brandVal->name }}</option>
+              @endforeach
+          </select>
+        </div>
+      </div>
+<div class="col m-3">
+  <button class="btn btn-secondary"
+  onclick="window.location.href = '/home?filter=' + document.getElementById('filter').value + '&brand='  + document.getElementById('brand').value"
+  >Filter</button>
+</div>
 </div>
 
 @foreach ($rentals as $rental)

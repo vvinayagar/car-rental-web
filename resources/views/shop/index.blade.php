@@ -35,7 +35,9 @@
                                         <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('shop.show', ['shop' => $shop]) }}'" >View</button>
                                         <button type="button" class="btn btn-warning" onclick="window.location='{{ route('shop.edit', ['shop' => $shop]) }}'" >Edit</button>
                                         <form method="post" action="{{ route('shop.destroy', ['shop' => $shop]) }}">
-                                            <button type="button" class="btn btn-danger">Delete</button>
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-danger">Delete</button>
                                         </form>
                                     </div>
                                 </td>

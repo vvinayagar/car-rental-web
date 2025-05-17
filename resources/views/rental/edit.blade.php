@@ -1,7 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container mt-3">
+            @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @elseif (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -74,14 +85,28 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-6 mb-3">
+
+                             <div class="col-6 mb-3">
+                                <div class="form-group">
+                                    <label for="shop">Shop</label>
+                                    <select id="shop" name="shop" placeholder="Shop" required class="form-control">
+                                        @foreach ($shops as $shop)
+                                            <option value="{{ $shop->id }}" @if($rental->shop_id == $shop->id) selected  @endif>{{ $shop->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('shop')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <!-- <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label for="images">Categories</label>
 
                                     @foreach ($categories as $category )
 
                                     <div class="form-check">
-                                        <input name="categories[]" class="form-check-input" type="checkbox" value="{{ $category->id }} @if(count(\App\Models\SelectedCategory::where(['id'=> $category->id , 'rental_model_id'=> $rental->id])->get()) > 0) checked @endif" />
+                                        <input name="categories[]" class="form-check-input" type="checkbox" value="{{ $category->id }}" @if( $rental->selectedCategories != null && count($rental->selectedCategories) > 0 && $rental->selectedCategories->first()->category_id) == $category->id ) checked @endif />
                                         <label class="form-check-label" for="categories[]">
                                             {{ $category->name }}
                                         </label>
@@ -92,7 +117,7 @@
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="col-12 mb-3">
                             <button type="submit" name="save" class="btn btn-primary">Update</button>
                             </div>

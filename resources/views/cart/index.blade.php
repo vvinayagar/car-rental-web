@@ -123,47 +123,6 @@
             startInput.dispatchEvent(new Event('change'));
         });
         </script>
-{{--
-<script>
-    const blockedDates = {!! $blockedDatesJson !!}; // Dates fully booked
-    const availableCount = @json($availableCountPerDate); // e.g., { "2025-05-18": 2, "2025-05-19": 4 }
-
-    const inputStart = document.getElementById("startDate");
-    const inputEnd = document.getElementById("endDate");
-
-    // Show tooltip or availability
-    function updateAvailabilityDisplay(date) {
-
-
-        const available = {{ $rental->count }} - (availableCount[date] ?? 0);
-        if (available <= 0) {
-            alert("Date fully booked.");
-            return false;
-        } else {
-            console.log(`${available} car(s) available on ${date}`);
-        }
-        return true;
-    }
-
-    // Remove duplicate listener
-    inputStart.addEventListener("input", function () {
-        if (blockedDates.includes(this.value)) {
-            alert("Selected date is not allowed (fully booked).");
-            this.value = "";
-        } else {
-            updateAvailabilityDisplay(this.value);
-        }
-    });
-
-    inputEnd.addEventListener("input", function () {
-        if (blockedDates.includes(this.value)) {
-            alert("Selected end date is not allowed (fully booked).");
-            this.value = "";
-        } else {
-            updateAvailabilityDisplay(this.value);
-        }
-    });
-</script> --}}
 
 <script>
     const blockedDates = {!! $blockedDatesJson !!}; // Fully blocked (100% booked)
@@ -240,23 +199,5 @@
 </script>
 
 
-{{-- <script>
-       const blockedDates = {!! $blockedDatesJson !!};
-    const inputStart = document.getElementById("startDate");
-    const inputEnd = document.getElementById("endDate");
 
-    inputStart.addEventListener("input", function () {
-        if (blockedDates.includes(this.value)) {
-            alert("Selected date is not allowed.");
-            this.value = ""; // Clear the invalid date
-        }
-    });
-
-    inputStart.addEventListener("input", function () {
-        if (blockedDates.includes(this.value)) {
-            alert("Selected date is not allowed.");
-            this.value = ""; // Clear the invalid date
-        }
-    });
-</script> --}}
 @endsection

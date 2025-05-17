@@ -3,11 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-4">
-            <div class="mb-4">
-                <button onclick="window.location= '{{ route('brand.create') }}'" type="button" class="btn btn-primary">Create</button>
-            </div>
-        </div>
+       
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Brand') }}</div>
@@ -44,6 +40,11 @@
                         @endforeach
                     </table>
                 </div>
+            </div>
+        </div>
+         <div class="col-md-4">
+            <div class="mb-4">
+                <button onclick="window.location= '{{ route('brand.create') }}'" type="button" class="btn btn-primary">Create</button>
             </div>
         </div>
     </div>
