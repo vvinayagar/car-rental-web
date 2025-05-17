@@ -31,6 +31,9 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('plan', App\Http\Controllers\PlanController::class);
         Route::resource('rent', App\Http\Controllers\RentController::class);
 
+        Route::resource('type', App\Http\Controllers\TypeController::class);
+        Route::resource('transmission', App\Http\Controllers\TransmissionController::class);
+
         Route::resource('shop', App\Http\Controllers\ShopController::class);
         Route::resource('purchase', App\Http\Controllers\PurchaseController::class);
         Route::get('/purchase/approve/{purchase}', [App\Http\Controllers\PurchaseController::class, 'approve'])->name('purchase.approve');

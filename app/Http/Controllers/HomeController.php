@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\Transmission;
+use App\Models\Type;
 use Illuminate\Http\Request;
 use App\Models\RentalModel;
 use App\Models\ShopLocation;
@@ -27,40 +29,73 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-  $brand = 0;
-  $filter = 0;
+        $brand = null;
+        $filter = null;
+        $type = null;
+        $transmission = null;
         $shops = ShopLocation::all();
         $rentals = RentalModel::all();
+        $transmissions = Transmission::all();
+        $types = Type::all();
         $filter = 0;
         if ($request->query()) {
             // At least one parameter exists in the URL
             // You can access specific ones like:
-            $filter = $request->query('filter'); // null if not set
-             $brand = $request->query('brand'); // null if not set
-    
-             if($filter == 0){
-                $filter= null;
-             }
+            $brand = $request->query('brand') ?? null;
+            $filter = $request->query('filter') ?? null; // shop_id
+            $type = $request->query('type') ?? null;
+            $transmission = $request->query('transmission') ?? null;
 
-              if($brand == 0){
-                $brand= null;
-             }
+            if ($filter == 0) {
+                $filter = null;
+            }
 
-if($filter != null &&  $brand != null){
+            if ($brand == 0) {
+                $brand = null;
+            }
 
-    $rentals = RentalModel::where(['brand_id' => $brand, 'shop_id' => $filter])->get();
-}
-else{
-$rentals = RentalModel::query()
-    ->when($brand, fn($q) => $q->where('brand_id', $brand))
-    ->when($filter, fn($q) => $q->orWhere('shop_id', $filter))
-    ->get();
-}
+            if ($type == 0) {
+                $type = null;
+            }
+
+            if ($transmission == 0) {
+                $transmission = null;
+            }
+
+            $rentals = RentalModel::query()
+                ->when($brand, fn($q) => $q->where('brand_id', $brand))
+                ->when($filter, fn($q) => $q->where('shop_id', $filter))
+                ->when($type, fn($q) => $q->where('type_id', $type))
+                ->when($transmission, fn($q) => $q->where('transmission_id', $transmission))
+                ->get();
 
 
-        
+            // if($filter != null &&  $brand != null){
+
+            //     $rentals = RentalModel::where(['brand_id' => $brand, 'shop_id' => $filter])->get();
+// }
+// else{
+// $rentals = RentalModel::query()
+//     ->when($brand, fn($q) => $q->where('brand_id', $brand))
+//     ->when($filter, fn($q) => $q->orWhere('shop_id', $filter))
+//     ->get();
+// }
+
+
+
         }
-$brands = Brand::all();
-        return view('home', compact('rentals', 'shops', 'filter', 'brands', 'brand', 'filter'));
+        $brands = Brand::all();
+        return view('home', compact(
+            'rentals',
+            'shops',
+            'filter',
+            'brands',
+            'brand',
+            'filter',
+            'transmissions',
+            'types',
+            'type',
+            'transmission'
+        ));
     }
 }

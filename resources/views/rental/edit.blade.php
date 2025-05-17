@@ -85,7 +85,32 @@
                                     @enderror
                                 </div>
                             </div>
-
+                            <div class="col-6 mb-3">
+                                <div class="form-group">
+                                    <label for="transmission">Transmission</label>
+                                    <select id="transmission" name="transmission" placeholder="Transmission" required class="form-control">
+                                        @foreach ($transmissions as $transmission)
+                                            <option value="{{ $transmission->id }}"  @if( $rental->transmission_id != null && $rental->transmission_id == $transmission->id) selected @endif >{{ $transmission->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('transmission')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <div class="form-group">
+                                    <label for="type">Type</label>
+                                    <select id="type" name="type" placeholder="Type" required class="form-control">
+                                        @foreach ($types as $type)
+                                            <option value="{{ $type->id }}" @if( $rental->type_id != null && $rental->type_id == $type->id) selected @endif>{{ $type->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('type')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                              <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label for="shop">Shop</label>

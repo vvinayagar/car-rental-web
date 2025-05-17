@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transmission;
+use App\Models\Type;
 use Illuminate\Http\Request;
 use App\Models\RentalModel;
 use App\Models\Category;
@@ -34,13 +36,15 @@ class RentalItemController extends Controller
         $categories = Category::all();
         $brands = Brand::all();
         $shops = ShopLocation::all();
+        $types = Type::all();
+        $transmissions = Transmission::all();
 
         if (Auth::user()->hasRole('branch')) {
             $shops = ShopLocation::where('id', Auth::user()->profile->shop_location_id)->get();
 
         }
 
-        return view('rental.create', ['categories' => $categories, 'brands' => $brands, 'shops' => $shops]);
+        return view('rental.create', compact('categories', 'brands', 'shops', 'types', 'transmissions'));
     }
 
     /**
@@ -67,6 +71,8 @@ class RentalItemController extends Controller
         $rental->count = $request->count;
         $rental->brand_id = $request->brand;
         $rental->shop_id = $request->shop;
+        $rental->transmission_id = $request->transmission;
+        $rental->type_id = $request->type;
         $rental->save();
 
         // foreach ($request->categories as $category) {
@@ -82,7 +88,7 @@ class RentalItemController extends Controller
         // $name = $request->file('thumbnail')->getClientOriginalName();
         // $path = $request->file('thumbnail')->store('public/files');
 
-        $imageName = time().'.'.$request->thumbnail->extension();
+        $imageName = time() . '.' . $request->thumbnail->extension();
 
         $request->thumbnail->move(public_path('images'), $imageName);
 
@@ -91,16 +97,16 @@ class RentalItemController extends Controller
         foreach ($request->file('images') as $image) {
             // $nm = $image->getClientOriginalName();
             // $pt = $image->store('public/files');
-            $imgName = $n . time().'.'.$image->extension();
+            $imgName = $n . time() . '.' . $image->extension();
             $image->move(public_path('images'), $imgName);
 
             array_push($images, $imgName);
-            $n ++;
+            $n++;
         }
 
         $rental->images = json_encode($images);
 
-        $rental->thumbnail = $imageName ;
+        $rental->thumbnail = $imageName;
 
         $rental->save();
 
@@ -118,8 +124,10 @@ class RentalItemController extends Controller
         $rental = RentalModel::find($id);
         $categories = Category::all();
         $brands = Brand::all();
+        $types = Type::all();
+        $transmissions = Transmission::all();
 
-        return view('rental.view', compact('rental', 'categories', 'brands'));
+        return view('rental.view', compact('rental', 'categories', 'brands', 'types', 'transmissions'));
     }
 
     /**
@@ -132,15 +140,16 @@ class RentalItemController extends Controller
     {
         $rental = RentalModel::find($id);
         $categories = Category::all();
-        
+
         $brands = Brand::all();
-$shops = ShopLocation::all();
-        
+        $shops = ShopLocation::all();
+        $types = Type::all();
+        $transmissions = Transmission::all();
         if (Auth::user()->hasRole('branch')) {
             $shops = ShopLocation::where('id', Auth::user()->profile->shop_location_id)->get();
 
         }
-        return view('rental.edit', ['rental' => $rental, 'categories' => $categories , 'brands' => $brands,'shops'=> $shops]);
+        return view('rental.edit', compact('rental', 'categories', 'brands', 'shops', 'types', 'transmissions'));
     }
 
     /**
@@ -164,7 +173,9 @@ $shops = ShopLocation::all();
         $rental->spec = $request->spec;
         $rental->count = $request->count;
         $rental->brand_id = $request->brand;
-         $rental->shop_id = $request->shop;
+        $rental->shop_id = $request->shop;
+        $rental->transmission_id = $request->transmission;
+        $rental->type_id = $request->type;
         $rental->save();
 
         // $sels = SelectedCategory::where('rental_model_id', $rental->id)->get();
@@ -185,22 +196,22 @@ $shops = ShopLocation::all();
         // $path = $request->file('thumbnail')->store('public/files');
 
         if (isset($request->thumbnail) && $request->hasFile('thumbnail')) {
-            $imageName = time().'.'.$request->thumbnail->extension();
+            $imageName = time() . '.' . $request->thumbnail->extension();
 
             $request->thumbnail->move(public_path('images'), $imageName);
-            $rental->thumbnail = $imageName ;
+            $rental->thumbnail = $imageName;
         }
-        if ( isset($request->images) && $request->hasFile('images')) {
+        if (isset($request->images) && $request->hasFile('images')) {
             $images = array();
             $n = 0;
             foreach ($request->file('images') as $image) {
                 // $nm = $image->getClientOriginalName();
                 // $pt = $image->store('public/files');
-                $imgName = $n . time().'.'.$image->extension();
+                $imgName = $n . time() . '.' . $image->extension();
                 $image->move(public_path('images'), $imgName);
 
                 array_push($images, $imgName);
-                $n ++;
+                $n++;
             }
 
             $rental->images = json_encode($images);
