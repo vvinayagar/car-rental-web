@@ -47,6 +47,9 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('customer_purchase', App\Http\Controllers\CustomerBookingController::class);
     });
 
+    Route::middleware(['role:user|branch|admin'])->group(function () {
+        Route::resource('profile', App\Http\Controllers\ProfileController::class);
+    });
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::prefix('cart')->name('cart.')->group(function () {

@@ -63,9 +63,7 @@
                                 <a class="nav-link" href="{{ route('category.index') }}">{{ __('Category') }}</a>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('rental.index') }}">{{ __('Rental') }}</a>
-                            </li>
+
 
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('plan.index') }}">{{ __('Plan') }}</a>
@@ -77,6 +75,9 @@
                             </li>
                             @endrole
                               @role('admin|branch')
+                              <li class="nav-item">
+                                <a class="nav-link" href="{{ route('rental.index') }}">{{ __('Rental') }}</a>
+                            </li>
                               <li class="nav-item">
                                 <a class="nav-link" href="{{ route('purchase.index') }}">{{ __('Purchase') }}</a>
                             </li>
@@ -93,6 +94,11 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('profile.edit', ['profile' => Auth::user()]) }}"
+                                    onclick="">
+                                    {{ __('Profile') }}
+                                </a>
+
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                          document.getElementById('logout-form').submit();">

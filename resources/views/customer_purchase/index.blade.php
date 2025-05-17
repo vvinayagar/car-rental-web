@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container mt-3">
     @if(session('success'))
     <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
         {{ session('success') }}
@@ -73,19 +73,13 @@
                                 <td>{{ $purchase->approval_status }}</td>
                                 <td>
                                     <div class="btn-group">
-@if ($purchase->approval_status == "pending")
-<a href="{{ route("purchase.approve", ['purchase' => $purchase]) }}" class="btn btn-success">Approve</a>
-<a href="{{ route("purchase.reject", ['purchase' => $purchase]) }}" class="btn btn-danger">Reject</a>
-
-@endif
-
-                                        <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('purchase.show', ['purchase' => $purchase->id]) }}'" >View</button>
+                                        <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('customer_purchase.show', ['customer_purchase' => $purchase]) }}'" >View</button>
                                         {{-- <button type="button" class="btn btn-warning" onclick="window.location='{{ route('purchase.edit', ['purchase' => $purchase->id]) }}'" >Edit</button> --}}
-                                        <form method="post" action="{{ route('purchase.destroy', ['purchase' => $purchase->id]) }}">
+                                        {{-- <form method="post" action="{{ route('customer_purchase.destroy', ['purchase' => $purchase->id]) }}">
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="btn btn-danger">Delete</button>
-                                        </form>
+                                        </form> --}}
                                     </div>
                                 </td>
                             </tr>

@@ -34,6 +34,12 @@ class RentalItemController extends Controller
         $categories = Category::all();
         $brands = Brand::all();
         $shops = ShopLocation::all();
+
+        if (Auth::user()->hasRole('branch')) {
+            $shops = ShopLocation::where('id', Auth::user()->profile->shop_location_id)->get();
+
+        }
+
         return view('rental.create', ['categories' => $categories, 'brands' => $brands, 'shops' => $shops]);
     }
 
@@ -126,8 +132,11 @@ class RentalItemController extends Controller
         $rental = RentalModel::find($id);
         $categories = Category::all();
         $brands = Brand::all();
+        if (Auth::user()->hasRole('branch')) {
+            $shops = ShopLocation::where('id', Auth::user()->profile->shop_location_id)->get();
 
-        return view('rental.edit', ['rental' => $rental, 'categories' => $categories , 'brands' => $brands]);
+        }
+        return view('rental.edit', ['rental' => $rental, 'categories' => $categories , 'brands' => $brands,'shops'=> $shops]);
     }
 
     /**

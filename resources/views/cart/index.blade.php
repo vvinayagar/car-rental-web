@@ -73,7 +73,7 @@
 
                                     <div class="mb-3">
                                     <label for="quantity" class="form-label">Quantity</label>
-                                    <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1">
+                                    <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" max="2">
                                 </div>
 
                                     <div class="d-flex justify-content-between align-items-center">
@@ -123,8 +123,124 @@
             startInput.dispatchEvent(new Event('change'));
         });
         </script>
+{{--
+<script>
+    const blockedDates = {!! $blockedDatesJson !!}; // Dates fully booked
+    const availableCount = @json($availableCountPerDate); // e.g., { "2025-05-18": 2, "2025-05-19": 4 }
+
+    const inputStart = document.getElementById("startDate");
+    const inputEnd = document.getElementById("endDate");
+
+    // Show tooltip or availability
+    function updateAvailabilityDisplay(date) {
+
+
+        const available = {{ $rental->count }} - (availableCount[date] ?? 0);
+        if (available <= 0) {
+            alert("Date fully booked.");
+            return false;
+        } else {
+            console.log(`${available} car(s) available on ${date}`);
+        }
+        return true;
+    }
+
+    // Remove duplicate listener
+    inputStart.addEventListener("input", function () {
+        if (blockedDates.includes(this.value)) {
+            alert("Selected date is not allowed (fully booked).");
+            this.value = "";
+        } else {
+            updateAvailabilityDisplay(this.value);
+        }
+    });
+
+    inputEnd.addEventListener("input", function () {
+        if (blockedDates.includes(this.value)) {
+            alert("Selected end date is not allowed (fully booked).");
+            this.value = "";
+        } else {
+            updateAvailabilityDisplay(this.value);
+        }
+    });
+</script> --}}
 
 <script>
+    const blockedDates = {!! $blockedDatesJson !!}; // Fully blocked (100% booked)
+    const availableCount = @json($availableCountPerDate); // e.g., { "2025-05-18": 2 }
+    const maxCars = 2;//{{ $rental->count }}; // Total available cars
+
+    const inputStart = document.getElementById("startDate");
+    const inputEnd = document.getElementById("endDate");
+    const quantityInput = document.getElementById("quantity");
+    const form = document.querySelector("form");
+
+    // Get list of dates between two dates
+    function getDatesInRange(start, end) {
+        const dates = [];
+        let current = new Date(start);
+        const last = new Date(end);
+        while (current <= last) {
+            dates.push(current.toISOString().split('T')[0]);
+            current.setDate(current.getDate() + 1);
+        }
+        return dates;
+    }
+
+    // Main check function
+    function checkAvailability() {
+        const startDate = inputStart.value;
+        const endDate = inputEnd.value;
+        const quantity = parseInt(quantityInput.value || "1");
+
+        if (!startDate || !endDate || isNaN(quantity)) return true;
+
+        const dates = getDatesInRange(startDate, endDate);
+        let conflictDates = [];
+
+        for (let date of dates) {
+            const booked = availableCount[date] ?? 0;
+            const remaining = maxCars - booked;
+
+            if (quantity > remaining) {
+                conflictDates.push(`${date} (only ${remaining} left)`);
+            } else {
+                console.log(`${remaining} car(s) available on ${date}`);
+            }
+        }
+
+        if (conflictDates.length > 0) {
+            alert("Not enough cars on:\n" + conflictDates.join("\n"));
+            return false;
+        }
+
+        return true;
+    }
+
+    // Block date input if in blockedDates
+    function handleDateInput(input) {
+        if (blockedDates.includes(input.value)) {
+            alert("Selected date is not allowed (fully booked).");
+            input.value = "";
+        } else {
+            checkAvailability();
+        }
+    }
+
+    inputStart.addEventListener("input", () => handleDateInput(inputStart));
+    inputEnd.addEventListener("input", () => handleDateInput(inputEnd));
+    quantityInput.addEventListener("input", checkAvailability);
+
+    // Prevent form submission if invalid
+    form.addEventListener("submit", function(e) {
+        if (!checkAvailability()) {
+            e.preventDefault();
+        }
+    });
+</script>
+
+
+{{-- <script>
        const blockedDates = {!! $blockedDatesJson !!};
     const inputStart = document.getElementById("startDate");
     const inputEnd = document.getElementById("endDate");
@@ -142,5 +258,5 @@
             this.value = ""; // Clear the invalid date
         }
     });
-</script>
+</script> --}}
 @endsection

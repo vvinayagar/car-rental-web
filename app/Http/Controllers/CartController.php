@@ -16,27 +16,52 @@ class CartController extends Controller
      */
     public function index(RentalModel $rental)
     {
-        $purchaseItems =PurchaseItem::where("rental_model_id", $rental->id)->get();
+        $purchaseItems = PurchaseItem::where("rental_model_id", $rental->id)->get();
+        $availableCountPerDate = [];
+        $totalAvailable = $rental->count;
 
-        $blockedDates = [];
-
-
+        // From DB
         foreach ($purchaseItems as $item) {
-            $start = \Carbon\Carbon::parse($item->start_date)->startOfDay();
-            $end = \Carbon\Carbon::parse($item->end_date)->startOfDay();
+            $start = \Carbon\Carbon::parse($item->start_date);
+            $end = \Carbon\Carbon::parse($item->end_date);
 
-            // Loop through the date range
             while ($start->lte($end)) {
-                $blockedDates[] = $start->format('Y-m-d');
+                $key = $start->format('Y-m-d');
+                $availableCountPerDate[$key] = ($availableCountPerDate[$key] ?? 0) + $item->quantity;
                 $start->addDay();
             }
         }
 
-        // Optional: remove duplicates
-        $blockedDates = array_unique($blockedDates);
-        $blockedDatesJson = json_encode(array_values($blockedDates));
+        // 🔁 From Session Cart
+        $cart = session('cart', []);
+        foreach ($cart as $cartItem) {
+            if ((int) ($cartItem['product_id'] ?? 0) === $rental->id) {
+                $start = \Carbon\Carbon::parse($cartItem['start_date']);
+                $end = \Carbon\Carbon::parse($cartItem['end_date']);
+                $qty = (int) ($cartItem['quantity'] ?? 1);
+
+                while ($start->lte($end)) {
+                    $key = $start->format('Y-m-d');
+                    $availableCountPerDate[$key] = ($availableCountPerDate[$key] ?? 0) + $qty;
+                    $start->addDay();
+                }
+            }
+        }
+
+        // Fully blocked = quantity used up
+        $blockedDates = [];
+        foreach ($availableCountPerDate as $date => $used) {
+            if ($used >= $totalAvailable) {
+                $blockedDates[] = $date;
+            }
+        }
+
+        $blockedDatesJson = json_encode($blockedDates);
+        $availableJson = json_encode($availableCountPerDate);
+
         $plans = Plan::all();
-        return view("cart.index", compact("rental", "plans", "blockedDates", "blockedDatesJson"));
+        return view("cart.index", compact("rental", "plans", "blockedDates", "blockedDatesJson", "availableCountPerDate", "availableJson"));
+
     }
 
     public function add(Request $request, RentalModel $rental)
@@ -59,6 +84,11 @@ $diffBranch = true;
         }
 
         if (isset($cart[$productId])) {
+            $totalAfter = $cart[$productId]['quantity']  + $quantity;
+            if ($totalAfter > 2) {
+                return redirect()->back()->with('error', 'Maximum car can book per rental period is 2!');
+            }
+
             $cart[$productId]['quantity'] += $quantity;
         } else {
 

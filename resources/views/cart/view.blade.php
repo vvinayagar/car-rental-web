@@ -38,7 +38,7 @@
                                 <form action="{{ route('cart.update', $id) }}" method="POST" class="d-flex">
                                     @csrf
                                     @method('PUT')
-                                    <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1" class="form-control form-control-sm me-2" style="width: 70px;">
+                                    <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1" max="2" class="form-control form-control-sm me-2" style="width: 70px;">
                                     <button class="btn btn-outline-secondary btn-sm">Update</button>
                                 </form>
                             </td>
