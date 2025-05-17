@@ -50,9 +50,8 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        $category = Category::find($id);
 
         return view('category.view', ['category' => $category]);
     }
@@ -63,11 +62,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        $category = Category::find($id);
 
-        return view('category.view', ['category' => $category]);
+        return view('category.edit', ['category' => $category]);
     }
 
     /**
@@ -77,11 +75,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request ,Category $category)
     {
-       $category = Category::find($id);
        $category->name = $request->name;
-       $category->description = $request->description;
+       $category->save();
 
         return redirect()->route('category.index');
     }
@@ -92,9 +89,8 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        $category = Category::find($id);
         $category->delete();
 
         return redirect()->route('category.index');

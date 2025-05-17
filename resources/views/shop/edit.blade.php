@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Shop') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('shop.edit', ['shop' => $shop]) }}" class="form" type="multipart/form-data">
+                    <form method="POST" action="{{ route('shop.update', ['shop' => $shop]) }}" class="form" type="multipart/form-data">
                         @csrf
                         @method('put')
                         <div class="row">
@@ -61,7 +61,7 @@
                             <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label for="name">State</label>
-                                    <input type="text" name="city" placeholder="state" required autocomplete="state"
+                                    <input type="text" name="state" placeholder="state" required autocomplete="state"
                                         class="form-control"  value="{{ $shop->state }}"  />
                                         @error('state')
                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -71,7 +71,7 @@
 
                             <div class="col-6 mb-3">
                                 <div class="form-group">
-                                    <label for="name">State</label>
+                                    <label for="name">Country</label>
                                     <select name="country" id="country" class="form-control">
                                         <option value="">-- Select Country --</option>
                                         <option value="AF">Afghanistan</option>

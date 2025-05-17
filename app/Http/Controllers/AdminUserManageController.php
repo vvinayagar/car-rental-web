@@ -110,10 +110,9 @@ class AdminUserManageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        $user = User::where("id", $id)->first();
-        $profile = Profile::where("user_id", $id)->first();
+        $profile = $user->profile;//Profile::where("user_id", $id)->first();
 
         if(!isset($profile))
         {
@@ -121,6 +120,7 @@ class AdminUserManageController extends Controller
             $profile->phone = "000000";
             $profile->address = "-----";
             $profile->user_id =$user->id;
+             $profile->shop_location_id =0;
              $profile->save();
         }
 
@@ -136,10 +136,9 @@ class AdminUserManageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user = User::where("id", $id)->first();
-        $profile = Profile::where("user_id", $id)->first();
+        $profile = $user->profile;// Profile::where("user_id", $id)->first();
         $shops = ShopLocation::all();
          if(!isset($profile))
         {
@@ -163,14 +162,14 @@ class AdminUserManageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
         $validatedData = $request->validate([
             'name' => 'required',
             'email' => 'required'
         ]);
 
-        $user = User::find($id);
+
         if (isset($request->password) && trim($request->password) != "") {
             $user->password = Hash::make($request->password);
         }
@@ -184,7 +183,7 @@ class AdminUserManageController extends Controller
         $user->assignRole($request->privilege);
         $user->save();
 
-        $profile = Profile::where("user_id", $id)->first();
+        $profile = $user->profile;
         if (!isset($profile)) {
             $profile = new Profile();
         }
@@ -205,10 +204,10 @@ class AdminUserManageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::find($id);
-        $profile = Profile::where("user_id", $id)->first();
+
+        $profile = $user->profile;//Profile::where("user_id", $id)->first();
         try {
             $user->delete();
             $profile->delete();

@@ -207,6 +207,11 @@ class RentalItemController extends Controller
     public function destroy($id)
     {
         $rental = RentalModel::find($id);
+
+        foreach ($rental->plans as $plan) {
+            $plan->delete();
+        }
+
         $rental->delete();
         return redirect()->route('rental.index');
     }

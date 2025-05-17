@@ -61,7 +61,13 @@ class ShopController extends Controller
      */
     public function update(Request $request, ShopLocation $shop)
     {
-        $shop.save();
+        $shop->name = $request->name;
+        $shop->address1 = $request->address1;
+        $shop->address2 = $request->address2;
+        $shop->city = $request->city;
+        $shop->state = $request->state;
+        $shop->country = $request->country;
+        $shop->save();
         return redirect()->route("shop.index");
     }
 
@@ -70,7 +76,7 @@ class ShopController extends Controller
      */
     public function destroy(ShopLocation $shop)
     {
-        $shop.delete();
+        $shop->delete();
         return redirect()->route("shop.index");
     }
 }

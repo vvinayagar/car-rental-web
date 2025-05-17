@@ -24,10 +24,12 @@
                                 <td>{{ $category->name }}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('category.show', ['id' => $category->id, 'category' => $category->id]) }}'" >View</button>
-                                        <button type="button" class="btn btn-warning" onclick="window.location='{{ route('category.edit', ['id' => $category->id, 'category' => $category->id]) }}'" >Edit</button>
-                                        <form method="post" action="{{ route('category.destroy', ['id' => $category->id, 'category' => $category->id]) }}">
-                                            <button type="button" class="btn btn-danger">Delete</button>
+                                        <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('category.show', [ 'category' => $category]) }}'" >View</button>
+                                        <button type="button" class="btn btn-warning" onclick="window.location='{{ route('category.edit', [ 'category' => $category]) }}'" >Edit</button>
+                                        <form method="post" action="{{ route('category.destroy', [ 'category' => $category]) }}">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-danger">Delete</button>
                                         </form>
                                     </div>
                                 </td>

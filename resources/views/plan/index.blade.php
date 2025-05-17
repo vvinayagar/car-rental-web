@@ -22,6 +22,8 @@
                         </tr>
 
                         @foreach ($plans as $plan)
+@if($plan->rental != null)
+
                             <tr>
                                 <td>{{ $plan->name }}</td>
                                  <td>{{ $plan->days }}</td>
@@ -32,11 +34,14 @@
                                         <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('plan.show', ['plan' => $plan]) }}'" >View</button>
                                         <button type="button" class="btn btn-warning" onclick="window.location='{{ route('plan.edit', ['plan' => $plan]) }}'" >Edit</button>
                                         <form method="post" action="{{ route('plan.destroy', [ 'plan' => $plan]) }}">
-                                            <button type="button" class="btn btn-danger">Delete</button>
+                                        @csrf
+                                        @method('delete')    
+                                        <button type="submit" class="btn btn-danger">Delete</button>
                                         </form>
                                     </div>
                                 </td>
                             </tr>
+                            @endif
                         @endforeach
                     </table>
                 </div>
