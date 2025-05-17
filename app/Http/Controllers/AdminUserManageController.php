@@ -123,10 +123,10 @@ class AdminUserManageController extends Controller
              $profile->shop_location_id =0;
              $profile->save();
         }
-
+  $shops = ShopLocation::all();
         return view(
             "adminusermanage.view",
-            ["user" => $user, "profile" => $profile]
+            ["user" => $user, "profile" => $profile, 'shops' => $shops]
         );
     }
 

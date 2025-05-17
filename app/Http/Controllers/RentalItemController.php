@@ -131,7 +131,10 @@ class RentalItemController extends Controller
     {
         $rental = RentalModel::find($id);
         $categories = Category::all();
+        
         $brands = Brand::all();
+$shops = ShopLocation::all();
+        
         if (Auth::user()->hasRole('branch')) {
             $shops = ShopLocation::where('id', Auth::user()->profile->shop_location_id)->get();
 

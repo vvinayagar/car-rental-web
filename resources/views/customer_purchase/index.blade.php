@@ -14,12 +14,8 @@
     </div>
 @endif
     <div class="row justify-content-center">
-        <div class="col-md-2">
-            <div class="mb-4">
-                <button onclick="window.location= '{{ route('purchase.create') }}'" type="button" class="btn btn-primary">Create</button>
-            </div>
-        </div>
-        <div class="col-md-10">
+        
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">{{ __('Rental Cars') }}</div>
 

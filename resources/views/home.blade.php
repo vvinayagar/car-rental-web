@@ -114,7 +114,7 @@
       <img class="img img-thumbnail" src="{{ asset('images/' . $imgPath) }}" />
       @endforeach
       <div class="card-body">
-        <h5 class="card-title">{{ $rental->brand->name }} - {{ $rental->name }}</h5>
+        <h5 class="card-title">@if($rental->brand != null) {{ $rental->brand->name }}@endif - {{ $rental->name }}</h5>
         <p class="card-text">{{ $rental->spec }}.</p>
       </div>
       <div class="card-footer">
