@@ -21,7 +21,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Spec</th>
-                            <th>Categories</th>
+                            <th>Type</th>
                             <th>Thumbnails</th>
                             <th>Actions</th>
                         </tr>
@@ -30,7 +30,8 @@
                         <tr>
                             <td>{{ $rental->name }}</td>
                             <td>{{ $rental->spec }}</td>
-                            <td></td>
+                            <td>{{ $rental->type->name }}</td>
+
                             <td>
                                 <img class="img-thumbnail" src="{{ asset('images/' . $rental->thumbnail) }}" alt="car" />
                                 {{ $rental->thumbnail }}

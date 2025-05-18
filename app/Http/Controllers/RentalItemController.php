@@ -126,8 +126,9 @@ class RentalItemController extends Controller
         $brands = Brand::all();
         $types = Type::all();
         $transmissions = Transmission::all();
+        $shops = ShopLocation::all();
 
-        return view('rental.view', compact('rental', 'categories', 'brands', 'types', 'transmissions'));
+        return view('rental.view', compact('rental', 'categories', 'brands', 'types', 'transmissions', 'shops'));
     }
 
     /**

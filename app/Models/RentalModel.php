@@ -24,7 +24,7 @@ class RentalModel extends Model
 
     public function rents()
     {
-        return $this->hasMany(Rent::class,"rental_model_id" );
+        return $this->hasMany(Rent::class, "rental_model_id");
     }
 
     public function categories()
@@ -39,6 +39,11 @@ class RentalModel extends Model
 
     public function plans()
     {
-        return $this->hasMany(Plan::class,"rental_model_id");
+        return $this->hasMany(Plan::class, "rental_model_id");
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
     }
 }
