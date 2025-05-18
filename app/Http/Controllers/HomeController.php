@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\Purchase;
 use App\Models\Transmission;
 use App\Models\Type;
 use Illuminate\Http\Request;
@@ -97,5 +98,18 @@ class HomeController extends Controller
             'type',
             'transmission'
         ));
+    }
+
+    public function dashboard(){
+
+        $approved = count(Purchase::where("approval_status", 'approved')->get());
+        $rejected= count(Purchase::where("approval_status", 'rejected')->get());
+
+        $waiting = count(Purchase::where("approval_status", 'pending')->get());
+
+
+return view('dashboard', compact('approved', 'rejected', 'waiting'));
+
+        
     }
 }

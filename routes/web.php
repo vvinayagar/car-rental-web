@@ -54,6 +54,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('profile', App\Http\Controllers\ProfileController::class);
     });
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+        Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
 
     Route::prefix('cart')->name('cart.')->group(function () {
 

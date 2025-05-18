@@ -102,11 +102,12 @@
                         <div class="col-6 mb-3">
                             <div class="form-group">
                                 <label for="shop">Shop</label>
-                                <select id="shop" name="shop" placeholder="Shop" required class="form-control" disabled>
+                                <input type="text" value="{{ $rental->shop->name}}" class="form-control" disabled/>
+                                 <!-- <select id="shop" name="shop" placeholder="Shop" required class="form-control" disabled>
                                     @foreach ($shops as $shop)
-                                    <option value="{{ $shop->id }}" @if( $shop->shop_id != null && $shop->shop_id == $shop->id) selected @endif>{{ $shop->name }}</option>
+                                    <option value="{{ $shop->id }}" @if( $shop->shop_id != null && $rental->shop_id == $shop->id) selected @endif>{{ $shop->name }}</option>
                                     @endforeach
-                                </select>
+                                </select> -->
                                 @error('shop')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
