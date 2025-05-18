@@ -6,15 +6,15 @@
 
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Rental Cars') }}
-                    <div class="row justify-content-end">
-                        <div class="col-md-2">
-                            <div class="mb-3">
+                <div class="card-header">
+                     <div class="d-flex justify-content-between align-items-center">
+                        <span>{{ __('Rental Cars') }}</span>
+                        
                                 <button onclick="window.location= '{{ route('rental.create') }}'" type="button" class="btn btn-primary">Create</button>
                             </div>
                         </div>
                     </div>
-                </div>
+                
 
                 <div class="card-body">
                     <table class="table table-striped table-responsive" id="">

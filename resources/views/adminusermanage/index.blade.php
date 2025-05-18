@@ -24,16 +24,12 @@
 </script>
 <div class="container mt-3">
     <div class="card">
-        <div class="card-header">{{ __('User Management') }}
-            <div class="row justify-content-end">
-                <div class="col-md-2">
-                    <div class="btn-group">
-                        <button onclick="window.location = '{{ route('user.create') }}'" class="btn btn-primary">
-                            Create
-                        </button>
-                    </div>
-                </div>
-            </Div>
+        <div class="card-header">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <span>{{ __('User Management') }}</span>
+                <button onclick="window.location = '{{ route('user.create') }}'" class="btn btn-primary">Create</button>
+            </div>
         </div>
 
         <div class="card-body">
