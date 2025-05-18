@@ -92,11 +92,14 @@ $diffBranch = true;
             $cart[$productId]['quantity'] += $quantity;
         } else {
 
-            $start = Carbon::parse($request->start_date);
-            $end = Carbon::parse($request->end_date);
+            $start = Carbon::parse($request->startDate);
+            $end = Carbon::parse($request->endDate);
 
             $diff = $start->diffInDays($end);
+
+
             $diff = $diff + 1;
+            // dd($diff);
             $cart[$productId] = [
                 'product_id' => $productId,
                 'name' => $request->input('name'),

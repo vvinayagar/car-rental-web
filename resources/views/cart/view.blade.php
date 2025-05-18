@@ -14,6 +14,7 @@
                         <th scope="col" style="width: 120px;">Quantity</th>
                         <th scope="col">Start Date</th>
                         <th scope="col">End Date</th>
+                        <th scope="col">Days</th>
                         <th scope="col">Unit Price</th>
                         <th scope="col">Total</th>
                         <th scope="col"></th>
@@ -45,6 +46,8 @@
                             <td>{{ $item['start_date'] }}</td>
                             <td>{{ $item['end_date'] }}</td>
 
+
+                            <td>{{ $item['days'] }}</td>
                             <td>${{ number_format($plan->price , 2) }}</td>
                             <td>${{ number_format($total, 2) }}</td>
                             <td>
