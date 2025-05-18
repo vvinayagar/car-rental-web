@@ -57,6 +57,7 @@ class TransmissionController extends Controller
     public function update(Request $request, Transmission $transmission)
     {
         $transmission->name = $request->name;
+        $transmission->save();
         return redirect()->route("transmission.index")->with("success", "Updated");
     }
 

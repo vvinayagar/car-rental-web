@@ -15,7 +15,7 @@
                             <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label for="name">Name</label>
-                                    <input type="text" name="name" placeholder="Name" required autocomplete="name" value="{{ $shop->name }}"                                        class="form-control" />
+                                    <input type="text" name="name" placeholder="Name" required autocomplete="name" value="{{ $shop->name }}" class="form-control" />
                                         @error('name')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror

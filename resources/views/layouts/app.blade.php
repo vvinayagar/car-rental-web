@@ -78,6 +78,9 @@
                                 <a class="nav-link" href="{{ route('plan.index') }}">{{ __('Plan') }}</a>
                             </li>
 
+                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('purchase.index') }}">{{ __('Purchase') }}</a>
+                            </li>
 
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('user.index') }}">{{ __('User') }}</a>
