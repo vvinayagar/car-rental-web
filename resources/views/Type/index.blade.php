@@ -6,13 +6,10 @@
 
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Type') }}
-                    <div class="row justify-content-end">
-                        <div class="col-md-2">
-                            <div class="mb-4">
-                                <button onclick="window.location= '{{ route('type.create') }}'" type="button" class="btn btn-primary">Create</button>
-                            </div>
-                        </div>
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>{{ __('Type') }}</span>
+                        <button onclick="window.location= '{{ route('type.create') }}'" type="button" class="btn btn-primary">Create</button>
                     </div>
                 </div>
 
