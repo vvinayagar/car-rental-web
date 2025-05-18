@@ -66,10 +66,11 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('type.index') }}">{{ __('Type') }}</a>
                             </li>
-
+<!--
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('category.index') }}">{{ __('Category') }}</a>
                             </li>
+-->
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('rental.index') }}">{{ __('Rental') }}</a>
                             </li>
