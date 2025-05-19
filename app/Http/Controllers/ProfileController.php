@@ -48,9 +48,9 @@ class ProfileController extends Controller
      */
     public function edit(User $profile)
     {
-        $user = $profile;
-        $shops = ShopLocation::where('id', Auth::user()->profile->shop_location_id)->get();
-        return view('profile.edit', compact('user', 'shops'));
+        $user = $profile;//Loads the user whose profile is being edited
+        $shops = ShopLocation::where('id', Auth::user()->profile->shop_location_id)->get();//Also loads that user's assigned shop location
+        return view('profile.edit', compact('user', 'shops'));//
     }
 
     /**
@@ -65,16 +65,16 @@ class ProfileController extends Controller
 
         if (isset($request->password) && trim($request->password) != "") {
          
-         if(!isset($request->password_confirmation) || $request->password != $request->password_confirmation){
+         if(!isset($request->password_confirmation) || $request->password != $request->password_confirmation){//If password is given, check if it matches password_confirmation
  return redirect()->route('profile.edit', ['profile' => $profile])->with('failed', 'Password not matched!');
          }else{
- $profile->password = Hash::make($request->password);
+ $profile->password = Hash::make($request->password);//If yes: hash and save .If not: redirect back with an error
          }
            
         }
 
         $profile->email = $profile->email;
-        $profile->name = $request->name;
+        $profile->name = $request->name;//updates user name
         $profile->save();
 
 
@@ -86,9 +86,9 @@ class ProfileController extends Controller
 
         $pprofile->address = $request->address;
         $pprofile->phone = $request->phone;
-        $pprofile->user_id = $profile->id;
+        $pprofile->user_id = $profile->id;//Updates the linked profile table: phone, address, and shop
 
-       if(!Auth::user()->role == "user"){
+       if(!Auth::user()->role == "user"){//role != "user"
         $pprofile->shop_location_id = $request->shop;
 
         }
@@ -97,7 +97,7 @@ class ProfileController extends Controller
         $pprofile->save();
 
 
-        return redirect()->route('profile.edit', ['profile' => $profile])->with('Updated Successfully');
+        return redirect()->route('profile.edit', ['profile' => $profile])->with('success', 'Profile Updated Successfully');
     }
 
     /**

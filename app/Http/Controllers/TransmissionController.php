@@ -14,7 +14,7 @@ class TransmissionController extends Controller
     {
         $transmissions  = Transmission::all();
 
-        return view("Transmission.index", compact("transmissions"));
+        return view("Transmission.index", compact("transmissions"));// list all transmissions
     }
 
     /**
@@ -22,7 +22,7 @@ class TransmissionController extends Controller
      */
     public function create()
     {
-        return view("Transmission.create");
+        return view("Transmission.create");// create form 
     }
 
     /**
@@ -30,7 +30,7 @@ class TransmissionController extends Controller
      */
     public function store(Request $request)
     {
-        $transmission = Transmission::create($request->all());
+        $transmission = Transmission::create($request->all());//Transmission::create($request->only('name'));
         return redirect()->route("transmission.index")->with("success","Created");
     }
 

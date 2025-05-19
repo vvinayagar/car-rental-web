@@ -61,7 +61,7 @@ class HomeController extends Controller
 
             if ($transmission == 0) {
                 $transmission = null;
-            }
+            }//The frontend may pass 0 when "All" is selected, so it's treated as no filter
 
             $rentals = RentalModel::query()
                 ->when($brand, fn($q) => $q->where('brand_id', $brand))
@@ -69,7 +69,7 @@ class HomeController extends Controller
                 ->when($type, fn($q) => $q->where('type_id', $type))
                 ->when($transmission, fn($q) => $q->where('transmission_id', $transmission))
                 ->get();
-
+//Dynamically adds filters only when the values are present using when() method
 
             // if($filter != null &&  $brand != null){
 
@@ -98,15 +98,15 @@ class HomeController extends Controller
             'type',
             'transmission'
         ));
-    }
+    }//Data is passed to the Blade file. Show available cars. Show filters in dropdowns
 
-    public function dashboard(){
+    public function dashboard(){//Retrieves the number of bookings based on their approval status
 
         $approved = count(Purchase::where("approval_status", 'approved')->get());
         $rejected= count(Purchase::where("approval_status", 'rejected')->get());
 
         $waiting = count(Purchase::where("approval_status", 'pending')->get());
-
+//Retrieves the number of bookings based on their approval status. and display in dashboard view
 
 return view('dashboard', compact('approved', 'rejected', 'waiting'));
 

@@ -16,8 +16,8 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brands = Brand::all();
-        return view('brand.index', ['brands' => $brands]);
+        $brands = Brand::all();//Gets all car brands from the database
+        return view('brand.index', ['brands' => $brands]);//Sends them to the brand/index.blade.php view to display
     }
 
     /**
@@ -27,7 +27,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        return view('brand.create');
+        return view('brand.create');//form to create new brand
     }
 
     /**
@@ -39,20 +39,20 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         $brand = new Brand();
-        $brand->name = $request->name;
+        $brand->name = $request->name; //Creates a new Brand object and sets its name
 
 
         $images = array();
         $n = 0;
-        foreach ($request->file('images') as $image) {
-            $imgName = $n . time().'.'.$image->extension();
-            $image->move(public_path('images'), $imgName);
+        foreach ($request->file('images') as $image) { //Loops through uploaded images.
+            $imgName = $n . time().'.'.$image->extension();//Gives each a unique name (based on time and loop counter)
+            $image->move(public_path('images'), $imgName);//Saves them in the public/images folder
 
-            array_push($images, $imgName);
+            array_push($images, $imgName);//Collects all image names in an array
             $n ++;
         }
 
-        $brand->images = json_encode($images);
+        $brand->images = json_encode($images);//Saves the image filenames as a JSON array in the database
 
         $brand->save();
 
@@ -67,7 +67,7 @@ class BrandController extends Controller
      */
     public function show(Brand $brand)
     {
-        return view('brand.view', ['brand' => $brand]);
+        return view('brand.view', ['brand' => $brand]);//Shows details of a single brand
     }
 
     /**
@@ -78,7 +78,7 @@ class BrandController extends Controller
      */
     public function edit(Brand $brand)
     {
-        return view('brand.edit', compact('brand'));
+        return view('brand.edit', compact('brand'));//Sends brand data to brand/edit.blade.php for editing
     }
 
     /**
@@ -92,7 +92,7 @@ class BrandController extends Controller
     {
         //
         $brand->name = $request->name;
-        $brand->save();
+        $brand->save();//Updates the brand name and saves it
 
         return redirect()->route('brand.index');
     }

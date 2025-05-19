@@ -14,5 +14,6 @@ class Profile extends Model
     {
         return $this->belongsTo(ShopLocation::class, "shop_location_id");
     }
+    //Each profile belongs to one shop location,The foreign key in the profiles table is shop_location_id
 
 }

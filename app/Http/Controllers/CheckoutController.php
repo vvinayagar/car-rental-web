@@ -21,14 +21,14 @@ class CheckoutController extends Controller
         $cart = session()->get('cart', []);
         if (empty($cart)) {
             return redirect()->back()->with('error', 'Cart is empty.');
-        }
+        }//Retrieves the cart from the session.If cart is empty, redirects back with error
 
         $isPaymentSuccessful = rand(0, 1); // 0 = fail, 1 = success
 
         $status = $isPaymentSuccessful ? 'paid' : 'failed';
-        $transactionId = Str::uuid();
+        $transactionId = Str::uuid();//Assigns a status and generates a transaction_id
 
-        // Calculate total
+        // Calculate total //Loops through cart items and calculates the total cost. Uses Laravel collection sum() for clean calculation
         $total = collect($cart)->sum(fn($item) =>  Plan::find($item['plan'] )->price * $item['quantity'] * $item['days']);
 
         $shop = 0;
@@ -48,10 +48,11 @@ class CheckoutController extends Controller
             'payment_type' => 'demo',
             'payment_name'=> 'demo',
             'shop' => $shop
-        ]);
+        ]);//creates a new purchase order. Saves the amount, user, status (paid or failed), and address from the request
 
 
         // Add items if paid
+        //Loops through cart items and saves them into PurchaseItem table
         if ($isPaymentSuccessful) {
             foreach ($cart as $productId => $item) {
 
@@ -59,7 +60,7 @@ $start = Carbon::parse($item['start_date']);
             $end = Carbon::parse($item['end_date']);
 
             $diff = $start->diffInDays($end);
-            $diff = $diff + 1;
+            $diff = $diff + 1;//Calculates days again just to be safe
 
                 $rental = RentalModel::find($productId);
                 $plan = Plan::find($item['plan']);
@@ -74,12 +75,12 @@ $start = Carbon::parse($item['start_date']);
                     'start_date'=> $item['start_date'],
                     'end_date' => $item['end_date'],
 
-                ]);
+                ]);//Links items to the purchase using purchase_id
             }
 
             session()->forget('cart'); // Clear cart on success
             return redirect()->route('home')->with('success', 'Payment successful. Order placed!');
-        } else {
+        } else {//No PurchaseItem entries are made. Cart is not cleared. User is informed the payment failed
             return redirect()->route('home')->with('error', 'Payment failed. Please try again.');
         }
     }

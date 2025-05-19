@@ -16,7 +16,7 @@ class CartController extends Controller
      */
     public function index(RentalModel $rental)
     {
-        $purchaseItems = PurchaseItem::where("rental_model_id", $rental->id)->get();
+        $purchaseItems = PurchaseItem::where("rental_model_id", $rental->id)->get();//Gets all purchases for this car
         $availableCountPerDate = [];
         $totalAvailable = $rental->count;
 
@@ -29,7 +29,7 @@ class CartController extends Controller
                 $key = $start->format('Y-m-d');
                 $availableCountPerDate[$key] = ($availableCountPerDate[$key] ?? 0) + $item->quantity;
                 $start->addDay();
-            }
+            }//Loops through all booked items (past purchases) and counts how many were booked each day
         }
 
         // 🔁 From Session Cart
@@ -46,9 +46,9 @@ class CartController extends Controller
                     $start->addDay();
                 }
             }
-        }
+        }//Adds any car booking from the cart to the same day count. Prevents double-booking.
 
-        // Fully blocked = quantity used up
+        // Fully blocked = quantity used up //If bookings (including cart) use up all available cars, that date is blocked
         $blockedDates = [];
         foreach ($availableCountPerDate as $date => $used) {
             if ($used >= $totalAvailable) {
@@ -59,7 +59,7 @@ class CartController extends Controller
         $blockedDatesJson = json_encode($blockedDates);
         $availableJson = json_encode($availableCountPerDate);
 
-        $plans = Plan::all();
+        $plans = Plan::all();//Sends rental info, availability, and blocked dates to the view
         return view("cart.index", compact("rental", "plans", "blockedDates", "blockedDatesJson", "availableCountPerDate", "availableJson"));
 
     }
@@ -68,16 +68,17 @@ class CartController extends Controller
     {
 
         $productId = $rental->id;
-        $quantity = $request->input('quantity', 1);
+        $quantity = $request->input('quantity', 1);//get product and quantity
 
          $cart = session()->get('cart', []);
 
         $diffBranch = false;
 
+        //Check if cart has cars from another branch
         foreach ($cart as $productId => $value) {
-if($rental->shop->id != $value["shop"]){
-$diffBranch = true;
-}
+            if($rental->shop->id != $value["shop"]){//Prevents users from booking cars from multiple branches in the same order
+            $diffBranch = true;
+            }
         }
         if ($diffBranch) {
             return redirect()->back()->with('error', 'Please add same branch cars or remove the cars!');
@@ -85,7 +86,7 @@ $diffBranch = true;
 
         if (isset($cart[$productId])) {
             $totalAfter = $cart[$productId]['quantity']  + $quantity;
-            if ($totalAfter > 2) {
+            if ($totalAfter > 2) {//A user can book max 2 cars per rental period
                 return redirect()->back()->with('error', 'Maximum car can book per rental period is 2!');
             }
 
@@ -111,15 +112,15 @@ $diffBranch = true;
                 'days' => $diff,
                 'shop'=> $rental->shop->id,
 
-            ];
+            ];//Stores all details (car, date, days, shop
         }
 
-        session()->put('cart', $cart);
+        session()->put('cart', $cart);//Laravel uses session to keep the cart data temporarily
 
         return redirect()->back()->with('success', 'Product added to cart!');
     }
 
-    public function remove($id)
+    public function remove($id)//removes the car from session cart
     {
         $cart = session()->get('cart', []);
 
@@ -133,7 +134,7 @@ $diffBranch = true;
 
 
     public function view(){
-        return view('cart.view');
+        return view('cart.view');//shows the cart items
     }
 
     /**
@@ -178,7 +179,7 @@ $diffBranch = true;
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
-            $cart[$id]['quantity'] = max(1, $quantity); // minimum 1
+            $cart[$id]['quantity'] = max(1, $quantity); // minimum 1 //Updates the quantity of a car in the cart (min is 1)
             session()->put('cart', $cart);
             return redirect()->back()->with('success', 'Cart updated successfully.');
         }

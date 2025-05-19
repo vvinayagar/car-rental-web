@@ -31,7 +31,7 @@ class RentController extends Controller
         $users = User::all();
         $plans = Plan::all();
         $rentals = RentalModel::all();
-        return view('rent.create', compact('users', 'plans', 'rentals'));
+        return view('rent.create', compact('users', 'plans', 'rentals'));//Returns the rent.create view to allow assigning a rent
     }
 
     /**
@@ -47,9 +47,9 @@ class RentController extends Controller
         $rent->plan_id = $request->plan;
         $rent->rental_model_id = $request->rental;
         $rent->details = $request->details;
-        $rent->status = 'paid';
+        $rent->status = 'paid';//Sets the status to 'paid' and payment_method to 'manual'
         
-        $plan = Plan::find($rent->plan_id);
+        $plan = Plan::find($rent->plan_id);//Calculates the expiry date based on the plan's duration
         $NewDate=Date('y:m:d', strtotime('+' . $plan->days .' days'));
 
         $rent->expiry = $NewDate;

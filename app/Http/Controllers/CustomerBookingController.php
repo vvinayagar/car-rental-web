@@ -13,8 +13,8 @@ class CustomerBookingController extends Controller
      */
     public function index()
     {
-        $purchases = Purchase::where('user_id', Auth::user()->id)->get();
-        return view('customer_purchase.index', compact('purchases'));
+        $purchases = Purchase::where('user_id', Auth::user()->id)->get();//Gets all Purchase records that belong to the currently logged-in user
+        return view('customer_purchase.index', compact('purchases'));//Sends them to the view to display a booking list
     }
 
     /**
@@ -38,7 +38,7 @@ class CustomerBookingController extends Controller
      */
     public function show(Purchase $customer_purchase)
     {
-        return view('customer_purchase.view', ['purchase' => $customer_purchase]);
+        return view('customer_purchase.view', ['purchase' => $customer_purchase]);//Shows details of one booking and Opens the view file
     }
 
     /**
@@ -60,7 +60,7 @@ class CustomerBookingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Purchase $customer_purchase)
+    public function destroy(Purchase $customer_purchase)//Deletes the booking from the database
     {
         $customer_purchase->delete();
         return redirect('customer_purchase.index')->with('success','Deleted');

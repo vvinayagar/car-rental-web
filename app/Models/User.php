@@ -46,9 +46,10 @@ class User extends Authenticatable
 
     public function profile()
     {
-        return $this->hasOne(Profile::class, "user_id");
+        return $this->hasOne(Profile::class, "user_id");//Each user has one profile
     }
 
+    //Roles
     public const ROLE_ADMIN = 'admin';
     public const ROLE_BRANCH = 'branch';
     public const ROLE_USER = 'user';

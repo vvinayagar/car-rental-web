@@ -13,7 +13,7 @@ class ShopController extends Controller
     public function index()
     {
         $shops = ShopLocation::all();
-        return view("shop.index", ["shops" => $shops]);
+        return view("shop.index", ["shops" => $shops]);//Returns a view: shop.index, passing the list as shops
     }
 
     /**
@@ -29,6 +29,14 @@ class ShopController extends Controller
      */
     public function store(Request $request)
     {
+        /**$request->validate([
+    'name' => 'required|string|max:255',
+    'address1' => 'required|string|max:255',
+    'address2' => 'nullable|string|max:255',
+    'city' => 'required|string|max:100',
+    'state' => 'required|string|max:100',
+    'country' => 'required|string|max:100',
+]); */
         $shop = new ShopLocation();
         $shop->name = $request->name;
         $shop->address1 = $request->address1;
@@ -45,7 +53,7 @@ class ShopController extends Controller
      */
     public function show(ShopLocation $shop)
     {
-        return view("shop.view", ["shop" => $shop]);
+        return view("shop.view", ["shop" => $shop]);//Displays a single shop’s data
     }
 
     /**

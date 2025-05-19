@@ -23,7 +23,7 @@ $user = User::where('id', Auth::user()->id)->first();
 
             $purchases = Purchase::where(["status"=> 'paid', 'shop' => Auth::user()->profile->shop_location_id])->get();
             return view('purchase.index', compact('purchases'));
-        }
+        }//Shows purchases depending on the user role. Admin sees all paid purchases. Branch sees only those for their own shop
 
     }
 
@@ -48,7 +48,7 @@ $user = User::where('id', Auth::user()->id)->first();
      */
     public function show(Purchase $purchase)
     {
-        return view('Purchase.View', compact('purchase'));
+        return view('Purchase.View', compact('purchase'));//Loads a specific purchase
     }
 
     /**
@@ -92,4 +92,5 @@ $purchase->approved_user = auth()->user()->email;
         $purchase->save();
         return redirect()->route('purchase.index')->with('failed', 'Rejected');
     }
+    //Changes the approval status and records the approving/rejecting user’s email
 }

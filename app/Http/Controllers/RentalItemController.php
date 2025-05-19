@@ -22,7 +22,7 @@ class RentalItemController extends Controller
      */
     public function index()
     {
-        $rentals = RentalModel::all();
+        $rentals = RentalModel::all();//Fetches all rental items 
         return view("rental.index", ['rentals' => $rentals]);
     }
 
@@ -42,7 +42,7 @@ class RentalItemController extends Controller
         if (Auth::user()->hasRole('branch')) {
             $shops = ShopLocation::where('id', Auth::user()->profile->shop_location_id)->get();
 
-        }
+        }//Branch users only see their shop
 
         return view('rental.create', compact('categories', 'brands', 'shops', 'types', 'transmissions'));
     }
@@ -64,7 +64,7 @@ class RentalItemController extends Controller
             // 'categories[]' => 'required'
         ]);
 
-        $rental = new RentalModel();
+        $rental = new RentalModel();//Creates a new RentalModel
 
         $rental->name = $request->name;
         $rental->spec = $request->spec;
@@ -88,6 +88,7 @@ class RentalItemController extends Controller
         // $name = $request->file('thumbnail')->getClientOriginalName();
         // $path = $request->file('thumbnail')->store('public/files');
 
+        //Uploads thumbnail and multiple images
         $imageName = time() . '.' . $request->thumbnail->extension();
 
         $request->thumbnail->move(public_path('images'), $imageName);
@@ -104,7 +105,7 @@ class RentalItemController extends Controller
             $n++;
         }
 
-        $rental->images = json_encode($images);
+        $rental->images = json_encode($images);//Saves the image filenames in the database 
 
         $rental->thumbnail = $imageName;
 
@@ -137,7 +138,7 @@ class RentalItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id)//Retrieves rental data by ID
     {
         $rental = RentalModel::find($id);
         $categories = Category::all();
@@ -145,11 +146,11 @@ class RentalItemController extends Controller
         $brands = Brand::all();
         $shops = ShopLocation::all();
         $types = Type::all();
-        $transmissions = Transmission::all();
+        $transmissions = Transmission::all();//Loads reference data for form (brands, types, transmissions)
         if (Auth::user()->hasRole('branch')) {
             $shops = ShopLocation::where('id', Auth::user()->profile->shop_location_id)->get();
 
-        }
+        }//Restricts shop list for branch users
         return view('rental.edit', compact('rental', 'categories', 'brands', 'shops', 'types', 'transmissions'));
     }
 
@@ -177,7 +178,7 @@ class RentalItemController extends Controller
         $rental->shop_id = $request->shop;
         $rental->transmission_id = $request->transmission;
         $rental->type_id = $request->type;
-        $rental->save();
+        $rental->save();//Updates basic fields
 
         // $sels = SelectedCategory::where('rental_model_id', $rental->id)->get();
 
@@ -213,7 +214,7 @@ class RentalItemController extends Controller
 
                 array_push($images, $imgName);
                 $n++;
-            }
+            }//Conditionally updates thumbnail and image files
 
             $rental->images = json_encode($images);
         }
@@ -235,9 +236,9 @@ class RentalItemController extends Controller
 
         foreach ($rental->plans as $plan) {
             $plan->delete();
-        }
+        }//Deletes associated plans first
 
-        $rental->delete();
+        $rental->delete();//Then deletes the rental record itself
         return redirect()->route('rental.index');
     }
 }

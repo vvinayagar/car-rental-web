@@ -16,7 +16,7 @@ class PlanController extends Controller
     public function index()
     {
        
-        $plans = Plan::all();
+        $plans = Plan::all();//Retrieves all pricing plans
         return view('plan.index', compact('plans'));
     }
 
@@ -27,7 +27,7 @@ class PlanController extends Controller
      */
     public function create()
     {
-        $rentals = RentalModel::all();
+        $rentals = RentalModel::all();//Loads all cars (rental models)
         return view('plan.create', compact('rentals'));
     }
 
@@ -37,8 +37,15 @@ class PlanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request)//adding new plan 
     {
+        /*$request->validate([
+            'name' => 'required|string|max:100',
+            'days' => 'required|integer|min:1',
+            'price' => 'required|numeric|min:0',
+            'rental' => 'required|exists:rental_models,id',
+            ]); */
+
         $plan = new Plan();
         $plan->name = $request->name;
         $plan->days = $request->days;
@@ -59,7 +66,7 @@ class PlanController extends Controller
      */
     public function show(Plan $plan)
     {
-         $rentals = RentalModel::all();
+         $rentals = RentalModel::all();//Shows details of a specific plan
         return view('plan.view', compact('rentals' ,'plan'));
     }
 
@@ -82,7 +89,7 @@ class PlanController extends Controller
      * @param  \App\Models\Plan  $plan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Plan $plan)
+    public function update(Request $request, Plan $plan)//Updates existing plan info
     {
         $plan->name = $request->name;
         $plan->days = $request->days;
@@ -92,7 +99,7 @@ class PlanController extends Controller
 
         $plan->save();
 
-        return redirect()->route('plan.index');
+        return redirect()->route('plan.index')->with('success', 'Plan updated successfully');
     }
 
     /**

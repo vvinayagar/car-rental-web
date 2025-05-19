@@ -24,10 +24,10 @@ class PurchaseItem extends Model
 
     public function rentalModel()
     {
-        return $this->belongsTo(RentalModel::class);
+        return $this->belongsTo(RentalModel::class);//Each purchase item is for one specific car model
     }
 
     public function plan(){
-        return $this->belongsTo(Plan::class);
+        return $this->belongsTo(Plan::class);//Each item also uses a rental plan
     }
 }
