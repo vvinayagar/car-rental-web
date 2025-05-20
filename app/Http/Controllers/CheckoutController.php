@@ -24,10 +24,13 @@ class CheckoutController extends Controller
         }//Retrieves the cart from the session.If cart is empty, redirects back with error
 
         $isPaymentSuccessful = rand(0, 1); // 0 = fail, 1 = success
-
         $status = $isPaymentSuccessful ? 'paid' : 'failed';
         $transactionId = Str::uuid();//Assigns a status and generates a transaction_id
 
+        //$isPaymentSuccessful = true; // always successful
+        //$status = 'paid';
+        //$transactionId = Str::uuid();
+        
         // Calculate total //Loops through cart items and calculates the total cost. Uses Laravel collection sum() for clean calculation
         $total = collect($cart)->sum(fn($item) =>  Plan::find($item['plan'] )->price * $item['quantity'] * $item['days']);
 
